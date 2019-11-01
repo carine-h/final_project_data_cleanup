@@ -1,0 +1,23 @@
+---
+title: "data_cleanup_final_project"
+author: "Carine Hajjar and Johannes Lang"
+date: "10/31/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(googlesheets4)
+
+```
+
+
+```{r}
+sheets_deauth()
+x <- read_sheet("1Nk6TRU0BYuxGszHApX2yi8ISYRQmsC35b60dtDngla4")
+
+x
+```
+
