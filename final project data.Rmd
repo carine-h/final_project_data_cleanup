@@ -12,18 +12,333 @@ library(tidyverse)
 library(googlesheets4)
 library(janitor)
 library(stats)
+library(fs)
+library(readxl)
 
 ```
 
 
 ```{r}
-x%>%
-  mutate("friend_group" = 1:68)%>%
-  group_by(friend_group)
-glimpse(x)
+dir_create("raw-data")
+
+
+skirty <- read_excel("raw-data/skrt.xlsx")
+
+skirty
+
+y <- skirty%>%clean_names()%>%
+  rename(gender_r = gender_2, 
+         class_r = class_3, 
+         extra_r = what_extracurriculars_are_you_most_involved_with_on_campus, 
+         concentration_r = what_area_does_your_concentration_fall_into, 
+         athlete_r = are_you_a_student_athlete, 
+         international_r = are_you_an_international_student, 
+         race_r = what_is_your_racial_ethnic_background, 
+         urban_r = did_you_grow_up_in_a_rural_or_urban_area, 
+         firstgen_r = do_you_identify_as_a_first_generation_student, 
+         legacy_r = what_is_your_legacy_status, 
+         religion_r = what_is_your_religious_background, 
+         political_r = what_are_your_political_views, 
+         
+         gender_p1 = gender_14, 
+         class_p1 = class_15, 
+         extra_p1 = what_extracurriculars_are_they_most_involved_with_on_campus_16, 
+         concentration_p1 = what_area_does_their_concentration_fall_into_17, 
+         athlete_p1 = are_they_a_student_athlete_18, 
+         international_p1 = are_they_an_international_student_19, 
+         race_p1 = what_is_their_racial_ethnic_background_20, 
+         urban_p1 = did_they_grow_up_in_a_rural_or_urban_area_21, 
+         firstgen_p1 = do_they_identify_as_a_first_generation_student_22, 
+         legacy_p1 = what_is_their_legacy_status_23, 
+         religion_p1 = what_is_their_religious_background_24, 
+         political_p1 = what_are_their_political_views_25, 
+         
+         gender_p2 = gender_26, 
+         class_p2 = class_27, 
+         extra_p2 = what_extracurriculars_are_they_most_involved_with_on_campus_28, 
+         concentration_p2 = what_area_does_their_concentration_fall_into_29, 
+         athlete_p2 = are_they_a_student_athlete_30, 
+         international_p2 = are_they_an_international_student_31, 
+         race_p2 = what_is_their_racial_ethnic_background_32, 
+         urban_p2 = did_they_grow_up_in_a_rural_or_urban_area_33, 
+         firstgen_p2 = do_they_identify_as_a_first_generation_student_34, 
+         legacy_p2 = what_is_their_legacy_status_35, 
+         religion_p2 = what_is_their_religious_background_36, 
+         political_p2 = what_are_their_political_views_37, 
+         
+         
+         gender_p3 = gender_38, 
+         class_p3 = class_39, 
+         extra_p3 = what_extracurriculars_are_they_most_involved_with_on_campus_40, 
+         concentration_p3 = what_area_does_their_concentration_fall_into_41, 
+         athlete_p3 = are_they_a_student_athlete_42, 
+         international_p3 = are_they_an_international_student_43, 
+         race_p3 = what_is_their_racial_ethnic_background_44, 
+         urban_p3 = did_they_grow_up_in_a_rural_or_urban_area_45, 
+         firstgen_p3 = do_they_identify_as_a_first_generation_student_46, 
+         legacy_p3 = what_is_their_legacy_status_47, 
+         religion_p3 = what_is_their_religious_background_48, 
+         political_p3 = what_are_their_political_views_49, 
+         
+         gender_p4 = gender_50, 
+         class_p4 = class_51, 
+         extra_p4 = what_extracurriculars_are_they_most_involved_with_on_campus_52, 
+         concentration_p4 = what_area_does_they_concentration_fall_into, 
+         athlete_p4 = are_they_a_student_athlete_54, 
+         international_p4 = are_they_an_international_student_55, 
+         race_p4 = what_is_their_racial_ethnic_background_56, 
+         urban_p4 = did_they_grow_up_in_a_rural_or_urban_area_57, 
+         firstgen_p4 = do_they_identify_as_a_first_generation_student_58, 
+         legacy_p4 = what_is_their_legacy_status_59, 
+         religion_p4 = what_is_their_religious_background_60, 
+         political_p4 = what_are_their_political_views_61)
+
+
+
+m <- y%>%
+  select(-s) %>%
+  drop_na()%>%
+  mutate(n_same_race= NA)
+
+for (i in 1:67) {
+
+respondent_race<-m$race_r[i]
+
+count=0
+
+if(respondent_race==m$race_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_race==m$race_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_race==m$race_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_race==m$race_p4[i])
+{count<-count+1}else{
+count<-count}
+#Repeat for other people (only thing to change is p1 to p2, just add another if
+
+#.
+#.
+#.
+
+m$n_same_race[i]<-count}
+```
+
+
+```{r}
+m<-
+  m%>%
+  mutate(n_same_religion= NA)
+
+for (i in 1:67) {
+
+respondent_religion< m$religion_r[i]
+
+count=0
+
+if(respondent_religion==m$religion_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_religion==m$religion_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_religion==m$religion_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_religion==m$religion_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m$n_same_religion[i]<-count}
 
 ```
 
+```{r}
+m<-
+  m%>%
+  mutate(n_same_concentration= NA)
+
+for (i in 1:67) {
+
+respondent_concentration<-m$concentration_r[i]
+
+count=0
+
+if(respondent_concentration==m$concentration_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_concentration==m$concentration_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_concentration==m$concentration_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_concentration==m$concentration_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m$n_same_concentration[i]<-count}
+```
+
+
+
+```{r}
+m<-
+  m%>%
+  mutate(n_same_athlete= NA)
+
+for (i in 1:67) {
+
+respondent_athlete<-m$athlete_r[i]
+
+count=0
+
+if(respondent_athlete==m$athlete_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_athlete==m$athlete_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_athlete==m$athlete_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_athlete==m$athlete_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m$n_same_athlete[i]<-count}
+```
+
+```{r}
+m<-
+  m%>%
+  mutate(n_same_international= NA)
+
+for (i in 1:67) {
+
+respondent_international<-m$international_r[i]
+
+count=0
+
+if(respondent_international==m$international_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_international==m$international_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_international==m$international_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_international==m$international_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m$n_same_international[i]<-count}
+```
+
+```{r}
+m<-
+  m%>%
+  mutate(n_same_firstgen= NA)
+
+for (i in 1:67) {
+
+respondent_firstgen<-m$firstgen_r[i]
+
+count=0
+
+if(respondent_firstgen==m$firstgen_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_firstgen==m$firstgen_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_firstgen==m$firstgen_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_firstgen==m$firstgen_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m$n_same_firstgen[i]<-count}
+```
+
+```{r}
+m<-
+  m%>%
+  mutate(n_same_legacy= NA)
+
+for (i in 1:67) {
+
+respondent_legacy<-m$legacy_r[i]
+
+count=0
+
+if(respondent_legacy==m$legacy_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_legacy==m$legacy_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_legacy==m$legacy_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_legacy==m$legacy_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m$n_same_legacy[i]<-count}
+```
+
+```{r}
+friend_groups<-
+  m%>%
+  select(n_same_race, n_same_religion, n_same_concentration, n_same_athlete, n_same_international, n_same_firstgen, n_same_legacy)
+
+```
+
+```{r}
+m%>%filter(race_r=="White")%>%
+  ggplot(aes(x=n_same_race))+
+  geom_histogram(binwidth=1)
+
+m %>%
+  ggplot(aes(x=race_r, y = n_same_race, color =race_r)) +
+  geom_violin() +
+  stat_summary(fun.y = mean, geom = "point") +
+  geom_jitter(shape = 16, color = "black", size = .5)
+
+m %>%
+  ggplot(aes(x=religion_r, y = n_same_religion, color =religion_r)) +
+  geom_violin() +
+  stat_summary(fun.y = mean, geom = "point") +
+  geom_jitter(shape = 16, color = "black", size = .5)
+
+```
 
 
 rename(gender_r = gender_6, 
