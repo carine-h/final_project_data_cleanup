@@ -10,14 +10,95 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(googlesheets4)
+library(janitor)
+library(stats)
 
 ```
 
 
 ```{r}
-sheets_deauth()
-x <- read_sheet("1Nk6TRU0BYuxGszHApX2yi8ISYRQmsC35b60dtDngla4")
+x%>%
+  mutate("friend_group" = 1:68)%>%
+  group_by(friend_group)
+glimpse(x)
 
-x
 ```
 
+
+
+rename(gender_r = gender_6, 
+         class_r = class_7, 
+         extra_r = what_extracurriculars_are_you_most_involved_with_on_campus, 
+         concentration_r = what_area_does_your_concentration_fall_into, 
+         athlete_r = are_you_a_student_athlete, 
+         international_r = are_you_an_international_student, 
+         race_r = what_is_your_racial_ethnic_background, 
+         urban_r = did_you_grow_up_in_a_rural_or_urban_area, 
+         firstgen_r = do_you_identify_as_a_first_generation_student, 
+         legacy_r = what_is_your_legacy_status, 
+         religion_r = what_is_your_religious_background, 
+         political_r = what_are_your_political_views, 
+         
+         gender_p1 = gender_18, 
+         class_p1 = class_19, 
+         extra_p1 = what_extracurriculars_are_you_most_involved_with_on_campus_20, 
+         concentration_p1 = what_area_does_your_concentration_fall_into_21, 
+         athlete_p1 = are_you_a_student_athlete_22, 
+         international_p1 = are_you_an_international_student_23, 
+         race_p1 = what_is_your_racial_ethnic_background_24, 
+         urban_p1 = did_you_grow_up_in_a_rural_or_urban_area_25, 
+         firstgen_p1 = do_you_identify_as_a_first_generation_student_26, 
+         legacy_p1 = what_is_your_legacy_status_27, 
+         religion_p1 = what_is_your_religious_background_28, 
+         political_p1 = what_are_your_political_views_29, 
+         
+         gender_p2 = gender_30, 
+         class_p2 = class_31, 
+         extra_p2 = what_extracurriculars_are_you_most_involved_with_on_campus_32, 
+         concentration_p2 = what_area_does_your_concentration_fall_into_33, 
+         athlete_p2 = are_you_a_student_athlete_34, 
+         international_p2 = are_you_an_international_student_35, 
+         race_p2 = what_is_your_racial_ethnic_background_36, 
+         urban_p2 = did_you_grow_up_in_a_rural_or_urban_area_37, 
+         firstgen_p2 = do_you_identify_as_a_first_generation_student_38, 
+         legacy_p2 = what_is_your_legacy_status_39, 
+         religion_p2 = what_is_your_religious_background_40, 
+         political_p2 = what_are_your_political_views_41, 
+         
+         
+         gender_p3 = gender_42, 
+         class_p3 = class_43, 
+         extra_p3 = what_extracurriculars_are_you_most_involved_with_on_campus_44, 
+         concentration_p3 = what_area_does_your_concentration_fall_into_45, 
+         athlete_p3 = are_you_a_student_athlete_46, 
+         international_p3 = are_you_an_international_student_47, 
+         race_p3 = what_is_your_racial_ethnic_background_48, 
+         urban_p3 = did_you_grow_up_in_a_rural_or_urban_area_49, 
+         firstgen_p3 = do_you_identify_as_a_first_generation_student_50, 
+         legacy_p3 = what_is_your_legacy_status_51, 
+         religion_p3 = what_is_your_religious_background_52, 
+         political_p3 = what_are_your_political_views_53, 
+         
+         gender_p4 = gender_54, 
+         class_p4 = class_55, 
+         extra_p4 = what_extracurriculars_are_you_most_involved_with_on_campus_56, 
+         concentration_p4 = what_area_does_your_concentration_fall_into_57, 
+         athlete_p4 = are_you_a_student_athlete_58, 
+         international_p4 = are_you_an_international_student_59, 
+         race_p4 = what_is_your_racial_ethnic_background_60, 
+         urban_p4 = did_you_grow_up_in_a_rural_or_urban_area_61, 
+         firstgen_p4 = do_you_identify_as_a_first_generation_student_62, 
+         legacy_p4 = what_is_your_legacy_status_63, 
+         religion_p4 = what_is_your_religious_background_64, 
+         political_p4 = what_are_your_political_views_65)
+
+## preceptor
+respondant George and four different rows for friends
+the column for race 
+then column for religion....
+
+put race on same row
+
+group by respondant 
+
+block them in group of 5 
