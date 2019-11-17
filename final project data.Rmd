@@ -121,11 +121,6 @@ count<-count}
 if(respondent_race==m$race_p4[i])
 {count<-count+1}else{
 count<-count}
-#Repeat for other people (only thing to change is p1 to p2, just add another if
-
-#.
-#.
-#.
 
 m$n_same_race[i]<-count}
 ```
@@ -321,7 +316,7 @@ friend_groups<-
 
 ```
 
-```{r}
+```{r, some preliminary data visualization}
 m%>%filter(race_r=="White")%>%
   ggplot(aes(x=n_same_race))+
   geom_histogram(binwidth=1)
@@ -338,8 +333,91 @@ m %>%
   stat_summary(fun.y = mean, geom = "point") +
   geom_jitter(shape = 16, color = "black", size = .5)
 
+
 ```
 
+```{r, permutation test}
+m_random_race<-
+    
+    tibble(replicate = 1:10000)%>%
+  
+    mutate(race_r = sample(c("White","Black or African American","Asian","Hispanic or Latino","Two or more races"), size=10000, replace = TRUE, prob=c(0.5, 0.15, 0.25, 0.1, 0.00)))%>%
+  
+  mutate(race_p1 = sample(c("White","Black or African American","Asian","Hispanic or Latino","Two or more races"), size=10000, replace = TRUE, prob=c(0.5, 0.15, 0.25, 0.1, 0.00)))%>%
+  
+  mutate(race_p2 = sample(c("White","Black or African American","Asian","Hispanic or Latino","Two or more races"), size=10000, replace = TRUE, prob=c(0.5, 0.15, 0.25, 0.1, 0.00)))%>%
+  
+  mutate(race_p3 = sample(c("White","Black or African American","Asian","Hispanic or Latino","Two or more races"), size=10000, replace = TRUE, prob=c(0.5, 0.15, 0.25, 0.1, 0.00)))%>%
+  
+  mutate(race_p4 = sample(c("White","Black or African American","Asian","Hispanic or Latino","Two or more races"), size=10000, replace = TRUE, prob=c(0.5, 0.15, 0.25, 0.1, 0.00)))%>%
+  
+  mutate(n_same_race= NA)
+
+for (i in 1:10000) {
+
+respondent_race<-m_random_race$race_r[i]
+
+count=0
+
+if(respondent_race==m_random_race$race_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_race==m_random_race$race_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_race==m_random_race$race_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_race==m_random_race$race_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m_random_race$n_same_race[i]<-count}
+```
+
+```{r}
+
+m_random_race%>%
+  filter(race_r=="White")%>%
+  ggplot(aes(x=n_same_race))+
+  geom_histogram(binwidth=1)+
+  geom_vline(xintercept=as.numeric(m%>%
+  filter(race_r=="White")%>%
+  summarize(mean=mean(n_same_race))))
+```
+
+```{r}
+m_random_race%>%
+  filter(race_r=="Asian")%>%
+  ggplot(aes(x=n_same_race))+
+  geom_histogram(binwidth=1)+
+  geom_vline(xintercept=as.numeric(m%>%
+  filter(race_r=="Asian")%>%
+  summarize(mean=mean(n_same_race))))
+```
+
+```{r}
+m_random_race%>%
+  filter(race_r=="Black or African American")%>%
+  ggplot(aes(x=n_same_race))+
+  geom_histogram(binwidth=1)+
+  geom_vline(xintercept=as.numeric(m%>%
+  filter(race_r=="Black or African American")%>%
+  summarize(mean=mean(n_same_race))))
+```
+
+```{r}
+m_random_race%>%
+  filter(race_r=="Hispanic or Latino")%>%
+  ggplot(aes(x=n_same_race))+
+  geom_histogram(binwidth=1)
+  geom_vline(xintercept=as.numeric(m%>%
+  filter(race_r=="Hispanic or Latino")%>%
+  summarize(mean=mean(n_same_race))))
+```
 
 rename(gender_r = gender_6, 
          class_r = class_7, 
