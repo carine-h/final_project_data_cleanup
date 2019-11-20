@@ -392,7 +392,7 @@ mean_observed_white <- as.numeric(m%>%
   filter(race_r=="White")%>%
   summarize(mean=mean(n_same_race)))
 
-white_replications %>%
+permutation_plot_white<- white_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_density()+
   geom_vline(xintercept=mean_observed_white)
@@ -437,7 +437,7 @@ mean_observed_asian <- as.numeric(m%>%
   filter(race_r=="Asian")%>%
   summarize(mean=mean(n_same_race)))
 
-asian_replications %>%
+permutation_plot_asian<-asian_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_density()+
   geom_vline(xintercept=as.numeric(mean_observed_asian))
