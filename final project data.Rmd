@@ -318,9 +318,31 @@ friend_groups<-
 ```
 
 ```{r, some preliminary data visualization}
-m%>%filter(race_r=="White")%>%
+white_observed_histogram <- m%>%filter(race_r=="White")%>%
   ggplot(aes(x=n_same_race))+
   geom_histogram(binwidth=1)
+
+write_rds(white_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_white.rds")
+
+black_observed_histogram <- m%>%filter(race_r=="Black or African American")%>%
+  ggplot(aes(x=n_same_race))+
+  geom_histogram(binwidth=1)
+
+write_rds(black_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_black.rds")
+
+asian_observed_histogram <- m%>%filter(race_r=="Asian")%>%
+  ggplot(aes(x=n_same_race))+
+  geom_histogram(binwidth=1)
+
+write_rds(asian_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_asian.rds")
+
+hispanic_observed_histogram <- m%>%filter(race_r=="Hispanic or Latino")%>%
+  ggplot(aes(x=n_same_race))+
+  geom_histogram(binwidth=1)
+
+write_rds(hispanic_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_hispanic.rds")
+
+
 
 m %>%
   ggplot(aes(x=race_r, y = n_same_race, color =race_r)) +
@@ -392,10 +414,12 @@ mean_observed_white <- as.numeric(m%>%
   filter(race_r=="White")%>%
   summarize(mean=mean(n_same_race)))
 
-permutation_plot_white<- white_replications %>%
+white_permutation_plot<- white_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_density()+
   geom_vline(xintercept=mean_observed_white)
+
+write_rds(white_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_white.rds")
 
 
 #now to see how likely it is to get the same same_race value or smaller, we can see how many times it happened throught the 1000 replications
@@ -437,10 +461,12 @@ mean_observed_asian <- as.numeric(m%>%
   filter(race_r=="Asian")%>%
   summarize(mean=mean(n_same_race)))
 
-permutation_plot_asian<-asian_replications %>%
+asian_permutation_plot<-asian_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_density()+
   geom_vline(xintercept=as.numeric(mean_observed_asian))
+
+write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_asian.rds")
              
 asian_replications %>%
   filter(mean_same_race >= mean_observed_asian) %>%
@@ -459,10 +485,12 @@ mean_observed_black <- as.numeric(m%>%
   filter(race_r=="Black or African American")%>%
   summarize(mean=mean(n_same_race)))
 
-black_replications %>%
+black_permutation_plot <- black_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_density()+
   geom_vline(xintercept=mean_observed_black)
+
+write_rds(black_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_black.rds")
 
 black_replications %>%
   filter(mean_same_race >= mean_observed_black) %>%
@@ -482,11 +510,12 @@ mean_observed_hispanic <- as.numeric(m%>%
   filter(race_r=="Hispanic or Latino")%>%
   summarize(mean=mean(n_same_race)))
 
-hispanic_replications %>%
+hispanic_permutation_plot <- hispanic_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_histogram()+
   geom_vline(xintercept=mean_observed_hispanic)
 
+write_rds(hispanic_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_hispanic.rds")
 
 hispanic_replications %>%
   filter(mean_same_race >= mean_observed_hispanic) %>%
