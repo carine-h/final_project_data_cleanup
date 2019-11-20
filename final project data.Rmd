@@ -134,7 +134,7 @@ m<-
 
 for (i in 1:67) {
 
-respondent_religion< m$religion_r[i]
+respondent_religion<- m$religion_r[i]
 
 count=0
 
@@ -380,8 +380,7 @@ m_random_race$n_same_race[i]<-count}
 ```
 
 ```{r}
-plotm<- m_random_race%>%
-  filter(race_r=="White")%>%
+plotm<- tibble(replicate=1:33)%>%
   select(n_same_race)%>%
   rep_sample_n(size = 33, replace = TRUE, reps = 1000) %>% 
   group_by(replicate) %>% 
@@ -391,6 +390,23 @@ plotm<- m_random_race%>%
   geom_vline(xintercept=as.numeric(m%>%
   filter(race_r=="White")%>%
   summarize(mean=mean(n_same_race))))
+
+#?sample
+#mutate(which_bowl = sample(c("Bowl 1", "Bowl 2"), size=10000, replace = TRUE,prob=c(0.1,0.9)))
+#z<- tibble(replicate = 1:10000)%>%
+ # mutate(flip = sample(c(0,0.25,0.5,0.75,1), size=10000, replace = TRUE, prob=c(0.25, 0.05, 0.4, #0.05, 0.25))) %>%
+  
+    #mutate(coin=rbinom(n=10000,size=33,prob=flip))
+```
+
+```{r}
+#z<- tibble(replicate = 1:33)%>%
+ 
+# mutate(flip = sample(c("White","Nonwhite"), size=33, replace = TRUE, prob=c(0.6,0.4))) %>%
+  
+ #   mutate(coin=rbinom(n=10000,size=33,prob = 0.6))
+
+
 ```
 
 ```{r}
