@@ -26,17 +26,17 @@ library(ggplot2)
 
 
 
-#kpop_top10 <- read.csv("data/kpop_top10.csv")
-
-#us_top10 <- read.csv("data/us_top10.csv")
 
 
 
+# Import data for violin test
+
+race_violin <- read_rds("./race_violin.rds")
 
 
 
 
-# Import data for K-pop Top 10 Comparison (observed Histograms)
+# Import data for observed Histograms)
 
 
 
@@ -53,7 +53,7 @@ o_hispanic <- read_rds("./o_hispanic.rds")
 
 
 
-# Import data for Billboard Top 10 Comparison (Permutation test)
+# Import data for Permutation test
 
 
 
@@ -65,7 +65,6 @@ p_asian <- read_rds("./p_asian.rds")
 p_black <- read_rds("./p_black.rds")
 
 p_hispanic<- read_rds("./p_hispanic.rds")
-
 
 
 
@@ -141,9 +140,9 @@ ui <- navbarPage(
             
             column(12,
                    
-                   wellPanel(
+                   mainPanel(
                        
-                       htmlOutput("variables")
+                       plotOutput("violin_plot")
                        
                    ))
             
@@ -254,71 +253,30 @@ server <- function(input, output) {
         
         HTML(paste(
             
-            h2("Overview"),
+            h2("Research Question"),
             
-            br(),
-            
-            "Beyond the Stage (BTS) searches into various possible explanations for the rapid rise of the Korean music group", tags$a("BTS (방탄소년단, Beyond the Scene)", href = "https://en.wikipedia.org/wiki/BTS_(band)"), ". With ",  tags$a("3 new Guinness World Records", href =  "https://www.billboard.com/articles/news/bts/8507811/bts-break-3-guinness-world-records-boy-with-luv"), "in just 2019,", tags$a ("4 Billboard Music Awards", href = "https://www.billboard.com/video/bts-wins-best-duo-or-group-about-billboard-music-award-2019-on-billboardyd-sourceflv-8509697"), ",", tags$a("YouTube", href = "https://www.youtube.com/watch?v=62E_xyj_oDA&list=PL_Cqw69_m_yzbMVGvQA8QWrL_HdVXJQX7"), "records for numerous music video releases, and", tags$a("sold-out concerts in some of the largest stadiums in the world", href = "https://www.forbes.com/sites/caitlinkelley/2019/03/02/bts-sold-out-america-europe-world-tour-love-yourself/#660891c55af3"), ", what distinguishes this group of seven from other artists?",
-            
-            br(),
-            
-            br(),
-            
-            h3("Summary of Findings"),
-            
-            br(),
-            
-            h4("Comparison to Top 10 Korean Artists"),
-            
-            p("BTS is quite similar to the other Korean Artists (voted Top 10 through the Melon Music Awards), most notably in Speechiness."),
-            
-            p("Based on Spotify data, BTS members employ musical attributes similar to other Korean popular music artists. They distinguish themselves with rap, and a higher emphasis on spoken word in their tracks. From the concerns of youth in a neoliberal Korea, to songs encouraging every listener to “Love Yourself” in alliance with their UNICEF campaign, a higher Speechiness value supports articles attributing the group’s success to their social messages."),
-            
-            br(),
-            
-            h4("Comparison to Top 10 Billboard Artists"),
-            
-            p("BTS is quite similar to the 2018 Top 10 Billboard-selected artists (almost completely dominated by American artists) on several attributes with notable exceptions."),
-            
-            p("Where BTS stands out are in the attributes of Energy and Liveness, where the group maintains the highest value. Most U.S. news sources covering BTS’ performances in America have called attention to their high-energy live performances. Here we find these qualities embedded in their music."),
-            
-            p("BTS is on the higher end of Speechiness yet again, although lower than Drake and XXXTENTACION. Although BTS’ songs span almost every music genre, their initial emphasis on rap remains salient in their tracks. BTS is also on the positive end for Valence values, aligning with their aim to uplift their listeners, even while interrogating complex issues. The group has the lowest value for Acousticness, a common perception associated with Korean popular music."),
-            
-            br(),
-            
-            h3("Sources"),
-            
-            a("Spotify", href = "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX"),
-            
-            br(),
-            
-            a("Wikipedia", href = "https://en.wikipedia.org/wiki/BTS_World_Tour:_Love_Yourself"),
-            
-            br(),
-            
-            a("Billboard", href = "https://www.billboard.com/charts/year-end/2018/top-artists"),
-            
-            br(),
-            
-            a("Melon (멜론)", href = "https://www.soompi.com/article/1262803wpp/2018-melon-music-awards-announces-winners-top-10-artists"),
-            
-            br(),
-            
-            a("Haebichan Jung's kpopclassifier", href = "https://github.com/haebichan/kpopclassifier.git"),
+            p("Harvard College prides itself on its mission of diversity and inclusion. The official website states, “Harvard's commitment to diversity in all forms is rooted in our fundamental belief that engaging with unfamiliar ideas, perspectives, cultures, and people creates the conditions for dramatic and meaningful growth.” Harvard believes students learn the most when they engage with students from different backgrounds, perspectives, and identities. How is the university holding up to the standard it sets for itself? To what extent do students form close connections to people different from themselves? Using data from students about their networks, we study the degree of self-segregation that takes place in students’ social networks."),
             
             br(),
             
             br(),
             
-            a("Browse Source Code Here", href = "https://github.com/marzipan241/beyond-the-stage.git"),
+            h3("Research Design"),
+            
+            p("Our data on friend group composition comes from a survey taken by around 80 Eliot House residents. Respondents were asked to fill out information about themselves as well as their four closest friends or acquaintances at Harvard pertaining to ethnicity, background, legacy status, immigration status, extracurricular activities, areas of studies and others."),
             
             br(),
             
+            h3("Data Visualization"),
+            
+            p("We display the observed distributions of friend groups from different backgrounds with what we would expect if factors like racial or religious background were completely uncorrelated with friend group selection. To that end, we look at data that the Crimson has compiled for each class. We explore the level of self-segregation at Harvard by comparing the composition of students’ friend groups to the overall diversity of Harvard students along the variables of gender, class year, extracurricular and academic, national, rural/urban, racial, religious and political background as well as athlete, first-generation, and legacy status."),
+            
             br(),
             
-            h4("About"),
+            h3("Findings"),
             
-            p("Margaret Sun is a sophomore studying Sociology at Harvard College who is immensely interested in internet mobilization (and alliteration, apparently), and hopes to take time in the future to build on this project. There are plenty more variables to be explored, and any suggestions on where to expand would be greatly appreciated!")
+            p("For this milestone, we analyzed self-segregation by race. For our final project, using a similar method, we want to visualize and evaluate the significance of our findings for religion, concentrational division, athlete, legacy, and first-generation status, national/international background, and political opinions. For race, we find that white students are significantly less likely to self-segregate than the average, whereas African American and Asian American respondents were more likely to form friendships within their own groups.")
+            
             
         ))
         
@@ -330,71 +288,9 @@ server <- function(input, output) {
     
     
     
-    output$variables <- renderUI({
+    output$violin_plot <- renderPlot({
         
-        HTML(paste(
-            
-            h3("Variables analyzed come from the Spotify API. Find their explanations below:"),
-            
-            br(),
-            
-            p(""),
-            
-            h4("Danceability"),
-            
-            p("On a scale of 0 (least danceable) to 1 (most danceable), a combination of beat strength, overall regularity, rhythm stability, and tempo informs Danceability."),
-            
-            br(),
-            
-            h4("Energy"),
-            
-            p("On a scale of 0 (least energy) to 1 (most energy), dynamic range, perceived loudness, timbre, and general entropy inform Energy. Classical music would score low here, while death metal high."),
-            
-            br(),
-            
-            h4("Speechiness"),
-            
-            p("On a scale of 0 (least speech) to 1 (most speech), Speechiness measures spoken words in a track. 0.66 or above indicates tracks almost entirely composed of spoken words, while the 0.33 to 0.66 range contains both music and speech."),
-            
-            br(),
-            
-            h4("Acousticness"),
-            
-            p("On a scale of 0 (least acoustic) to 1 (most acoustic), the general distribution of values is positively skewed, with most values closer to 0 because of use of electronic amplification in most songs."),
-            
-            br(),
-            
-            h4("Instrumentalness"),
-            
-            p("On a scale of 0 (least instrumental) to 1 (no vocal content), Instrumentalness measures whether tracks have vocals. Most songs on Spotify fall closer to 0 due to lyrics. “Ooh” and “aah” filler sounds count as instrumental."),
-            
-            br(),
-            
-            h4("Liveness"),
-            
-            p("On a scale of 0 (least likely performed live) to 1 (performed live), values above 0.8 for Liveness means the track is most likely live. This is also a positively skewed distribution."),
-            
-            br(),
-            
-            h4("Valence"),
-            
-            p("On a scale of 0 to 1, high Valence songs sound positive (euphoric, cheerful), which low Valence songs sounds negative (angry, depressed). "),
-            
-            br(),
-            
-            h4("Tempo"),
-            
-            p("On a scale of 0 to 1, Tempo measures a track’s beats per minute (BPM). Tempo is also the pace or speed of a track in relation to the average beat duration."),
-            
-            br(),
-            
-            h4("Duration (ms)"),
-            
-            p("Duration measures the length of the track in milliseconds."),
-            
-            br()
-            
-        ))
+   race_violin         
         
     })
     
@@ -408,7 +304,7 @@ server <- function(input, output) {
         
         if(input$k_type == "White"){
             
-            white_observed_histogram
+            o_white
             
         }
         
@@ -416,7 +312,7 @@ server <- function(input, output) {
         
         else if(input$k_type == "Black"){
             
-            black_observed_histogram
+            o_black
             
         }
         
@@ -424,7 +320,7 @@ server <- function(input, output) {
         
         else if(input$k_type == "Asian"){
             
-            asian_observed_histogram
+            o_asian
             
         }
         
@@ -432,7 +328,7 @@ server <- function(input, output) {
         
         else if(input$k_type == "Hispanic"){
             
-            hispanic_observed_histogram
+            o_hispanic
             
         }
         
@@ -452,7 +348,7 @@ server <- function(input, output) {
         
         if(input$us_type == "White"){
             
-            white_permutation_plot
+            p_white
             
         }
         
@@ -460,7 +356,7 @@ server <- function(input, output) {
         
         else if(input$us_type == "Black"){
             
-            black_permutation_plot
+            p_black
             
         }
         
@@ -468,7 +364,7 @@ server <- function(input, output) {
         
         else if(input$us_type == "Asian"){
             
-            asian_permutation_plot
+            p_asian
             
         }
         
@@ -476,7 +372,7 @@ server <- function(input, output) {
         
         else if(input$us_type == "Hispanic"){
             
-            hispanic_permutation_plot
+            p_hispanic
             
         }
         
