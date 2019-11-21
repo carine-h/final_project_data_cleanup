@@ -320,35 +320,53 @@ friend_groups<-
 ```{r, some preliminary data visualization}
 white_observed_histogram <- m%>%filter(race_r=="White")%>%
   ggplot(aes(x=n_same_race))+
-  geom_histogram(binwidth=1)
+  geom_histogram(binwidth=1, color = "darksalmon") + 
+  geom_vline(xintercept = (.5127* 4), color = "red") +
+  labs(title = "Observed Distribution of Same Race Friends for White Respondents", caption =  "the red line shows how our observed distribtuion compares to the expected \n mean when looking at the proportion of races in the total student body") +
+  theme(plot.caption = element_text(hjust = 0, face = "italic"))
+
 
 write_rds(white_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_white.rds")
 
 black_observed_histogram <- m%>%filter(race_r=="Black or African American")%>%
   ggplot(aes(x=n_same_race))+
-  geom_histogram(binwidth=1)
+  geom_histogram(binwidth=1, color = "darkblue") +
+  geom_vline(xintercept = (.1117* 4), color = "red") +
+  labs(title = "Observed Distribution of Same Race Friends for Black/African American Respondents", caption =  "the red line shows how our observed distribtuion compares to the expected \n mean when looking at the proportion of races in the total student body") +
+  theme(plot.caption = element_text(hjust = 0, face = "italic"))
+
 
 write_rds(black_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_black.rds")
 
 asian_observed_histogram <- m%>%filter(race_r=="Asian")%>%
   ggplot(aes(x=n_same_race))+
-  geom_histogram(binwidth=1)
+  geom_histogram(binwidth=1, color = "darkgreen") +
+  geom_vline(xintercept = (.2283* 4), color = "red") +
+  labs(title = "Observed Distribution of Same Race Friends for Asian Respondents", caption =  "the red line shows how our observed distribtuion compares to the expected \n mean when looking at the proportion of races in the total student body") +
+  theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
 write_rds(asian_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_asian.rds")
 
 hispanic_observed_histogram <- m%>%filter(race_r=="Hispanic or Latino")%>%
   ggplot(aes(x=n_same_race))+
-  geom_histogram(binwidth=1)
+  geom_histogram(binwidth=1, color= "darkorange") + 
+  geom_vline(xintercept = (.09933* 4), color = "red") +
+  labs(title = "Observed Distribution of Same Race Friends for Hispanic/Latino Respondents", caption =  "the red line shows how our observed distribtuion compares to the expected \n mean when looking at the proportion of races in the total student body") +
+  theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
 write_rds(hispanic_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_hispanic.rds")
 
 
 
-m %>%
+race_violin <- m %>%
   ggplot(aes(x=race_r, y = n_same_race, color =race_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
-  geom_jitter(shape = 16, color = "black", size = .5)
+  geom_jitter(shape = 16, color = "black", size = .5) + 
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(title = "Distribution of Same Race Friends per Respondent Race", y = "Number of Same Race Friends")
+
+write_rds(race_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/race_violin.rds")
 
 m %>%
   ggplot(aes(x=religion_r, y = n_same_religion, color =religion_r)) +
@@ -417,7 +435,9 @@ mean_observed_white <- as.numeric(m%>%
 white_permutation_plot<- white_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_density()+
-  geom_vline(xintercept=mean_observed_white)
+  geom_vline(xintercept=mean_observed_white, color = "blue") + 
+  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
+
 
 write_rds(white_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_white.rds")
 
@@ -464,7 +484,9 @@ mean_observed_asian <- as.numeric(m%>%
 asian_permutation_plot<-asian_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_density()+
-  geom_vline(xintercept=as.numeric(mean_observed_asian))
+  geom_vline(xintercept=mean_observed_asian, color = "blue") + 
+  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
+
 
 write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_asian.rds")
              
@@ -488,7 +510,8 @@ mean_observed_black <- as.numeric(m%>%
 black_permutation_plot <- black_replications %>%
   ggplot(aes(x=mean_same_race))+
   geom_density()+
-  geom_vline(xintercept=mean_observed_black)
+  geom_vline(xintercept=mean_observed_black, color = "blue") + 
+  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
 
 write_rds(black_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_black.rds")
 
@@ -512,8 +535,9 @@ mean_observed_hispanic <- as.numeric(m%>%
 
 hispanic_permutation_plot <- hispanic_replications %>%
   ggplot(aes(x=mean_same_race))+
-  geom_histogram()+
-  geom_vline(xintercept=mean_observed_hispanic)
+  geom_density()+
+  geom_vline(xintercept=mean_observed_hispanic, color = "blue") + 
+  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
 
 write_rds(hispanic_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_hispanic.rds")
 
