@@ -1,6 +1,6 @@
 ---
 title: "data_cleanup_final_project"
-author: "Carine Hajjar and Johannes Lang"
+author: "Carine Hajjar, Johannes Lang, Diego Arias"
 date: "10/31/2019"
 output: html_document
 ---
@@ -19,7 +19,7 @@ library(pracma)
 ```
 
 
-```{r}
+```{r name cleaning}
 dir_create("raw-data")
 
 
@@ -27,6 +27,7 @@ skirty <- read_excel("raw-data/skrt.xlsx")
 
 skirty
 
+# Here we cleaned the names and then gave them clearer names that work with r better:
 y <- skirty%>%clean_names()%>%
   rename(gender_r = gender_2, 
          class_r = class_3, 
@@ -93,13 +94,17 @@ y <- skirty%>%clean_names()%>%
          legacy_p4 = what_is_their_legacy_status_59, 
          religion_p4 = what_is_their_religious_background_60, 
          political_p4 = what_are_their_political_views_61)
+```
 
 
-
+```{r name same race column}
+# We create a column to count the number of same race in a friend group and fill it with NAs:
 m <- y%>%
   select(-s) %>%
   drop_na()%>%
   mutate(n_same_race= NA)
+
+# Using a for loop, we go through the 67 friend groups and count the number of friends that have a race matching the respondent's race. Each time there's a match, a 1 is added to n_same_race which was created above. If no races match at all, the value in n_same_race will be 0:
 
 for (i in 1:67) {
 
@@ -127,10 +132,14 @@ m$n_same_race[i]<-count}
 ```
 
 
-```{r}
+```{r same religion column}
+# We create a column to count the number of same religions in a friend group and fill it with NAs:
+
 m<-
   m%>%
   mutate(n_same_religion= NA)
+
+# Using a for loop, we go through the 67 friend groups and count the number of friends that have a religion matching the respondent's religion. Each time there's a match, a 1 is added to n_same_religion which was created above. If no religions match at all, the value in n_same_religion will be 0: 
 
 for (i in 1:67) {
 
@@ -158,7 +167,9 @@ m$n_same_religion[i]<-count}
 
 ```
 
-```{r}
+```{r same concentration}
+# The process for race and religion above is repeated for concentrations: 
+
 m<-
   m%>%
   mutate(n_same_concentration= NA)
@@ -190,10 +201,13 @@ m$n_same_concentration[i]<-count}
 
 
 
-```{r}
+```{r athlete}
+# the above process is repeated again as well. Here, however, I will walk you through the for loop a little more:
 m<-
   m%>%
   mutate(n_same_athlete= NA)
+
+# We are using the loop for each of the 68 rows-- 68 friend groups:
 
 for (i in 1:67) {
 
@@ -201,6 +215,7 @@ respondent_athlete<-m$athlete_r[i]
 
 count=0
 
+# if the respondent answer matches the answer of p1, p2, p3, or p4, count +1 for each yes and +0 for each no:
 if(respondent_athlete==m$athlete_p1[i])
 {count<-count+1}else{
 count<-count}
@@ -217,10 +232,15 @@ if(respondent_athlete==m$athlete_p4[i])
 {count<-count+1}else{
 count<-count}
 
+# we tally up the number of matches in the end:
+
 m$n_same_athlete[i]<-count}
 ```
 
-```{r}
+```{r international students}
+
+# the same process above is repeated for international students:
+
 m<-
   m%>%
   mutate(n_same_international= NA)
@@ -250,7 +270,9 @@ count<-count}
 m$n_same_international[i]<-count}
 ```
 
-```{r}
+```{r first gen}
+# the process is done for first gen students:
+
 m<-
   m%>%
   mutate(n_same_firstgen= NA)
@@ -280,7 +302,9 @@ count<-count}
 m$n_same_firstgen[i]<-count}
 ```
 
-```{r}
+```{r legacy}
+# the process is done again to count up the number of first gen students in each friend group: 
+
 m<-
   m%>%
   mutate(n_same_legacy= NA)
@@ -310,7 +334,9 @@ count<-count}
 m$n_same_legacy[i]<-count}
 ```
 
-```{r}
+```{r friend groups}
+# we gather the data we refined and create a friend group data set. This counts the number of answers matching the respondent's in each friend group for each varible:
+
 friend_groups<-
   m%>%
   select(n_same_race, n_same_religion, n_same_concentration, n_same_athlete, n_same_international, n_same_firstgen, n_same_legacy)
@@ -318,6 +344,9 @@ friend_groups<-
 ```
 
 ```{r, some preliminary data visualization}
+
+# this is a histogram for the observed number of white respondents and their number of white friends. We added the title, some color to the graph, adjusted binwidth, and captioned the graph. We do the same for the following races:
+
 white_observed_histogram <- m%>%filter(race_r=="White")%>%
   ggplot(aes(x=n_same_race))+
   geom_histogram(binwidth=1, color = "darksalmon") + 
@@ -326,8 +355,10 @@ white_observed_histogram <- m%>%filter(race_r=="White")%>%
   theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
 
+
 write_rds(white_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_white.rds")
 
+# the same is done from above, but with Black or African American friends:
 black_observed_histogram <- m%>%filter(race_r=="Black or African American")%>%
   ggplot(aes(x=n_same_race))+
   geom_histogram(binwidth=1, color = "darkblue") +
@@ -338,6 +369,7 @@ black_observed_histogram <- m%>%filter(race_r=="Black or African American")%>%
 
 write_rds(black_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_black.rds")
 
+# the same is done with Asian friends:
 asian_observed_histogram <- m%>%filter(race_r=="Asian")%>%
   ggplot(aes(x=n_same_race))+
   geom_histogram(binwidth=1, color = "darkgreen") +
@@ -347,6 +379,7 @@ asian_observed_histogram <- m%>%filter(race_r=="Asian")%>%
 
 write_rds(asian_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_asian.rds")
 
+# the same is done with Hispanic friends:
 hispanic_observed_histogram <- m%>%filter(race_r=="Hispanic or Latino")%>%
   ggplot(aes(x=n_same_race))+
   geom_histogram(binwidth=1, color= "darkorange") + 
@@ -356,7 +389,7 @@ hispanic_observed_histogram <- m%>%filter(race_r=="Hispanic or Latino")%>%
 
 write_rds(hispanic_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_hispanic.rds")
 
-
+# all of the histograms above will help us see the distribution of same race friends across different races and answer questions about if certain races self-segregate more than others. The violin plot below helps us do the same thing:
 
 race_violin <- m %>%
   ggplot(aes(x=race_r, y = n_same_race, color =race_r)) +
@@ -377,7 +410,9 @@ m %>%
 
 ```
 
-```{r, permutation test}
+```{r, race permutation test}
+# We ran a permutation below to compare to the data collected above. This permutation is based on the overall race makeup of Harvard-- NOT the race makeup of just friend groups. We will create a random sample with the proportions reported by Harvard and compare the outcome to the racial makeup of friend groups to see if there is self-segregation:
+
 m_random_race<-
     
     tibble(replicate = 1:10000)%>%
@@ -393,6 +428,8 @@ m_random_race<-
   mutate(race_p4 = sample(c("White","Black or African American","Asian","Hispanic or Latino","Two or more races"), size=10000, replace = TRUE, prob=c(0.513, 0.1116, 0.228, .093, 0.00)))%>%
   
   mutate(n_same_race= NA)
+
+# We repeat the same for loop as we did in the beginning with our collected data, but with the sample we generated with the for loop above:
 
 for (i in 1:10000) {
 
@@ -420,6 +457,7 @@ m_random_race$n_same_race[i]<-count}
 ```
 
 ```{r}
+# We use the randomized sample from above and look at the white distribution and do various graphical representations of it:
 white_replications <- m_random_race %>%
    filter(race_r=="White")%>%
   select(n_same_race)%>%
@@ -427,10 +465,13 @@ white_replications <- m_random_race %>%
   group_by(replicate) %>% 
   summarize(mean_same_race = mean(n_same_race))
 
+# Above we took the mean of the same race distribution for white respondents and their friends. Below we make this a numberical mean:
 
 mean_observed_white <- as.numeric(m%>%
   filter(race_r=="White")%>%
   summarize(mean=mean(n_same_race)))
+
+# Using the mean distribution of white race matches for white respondents, we create a density plot with the permutation data: 
 
 white_permutation_plot<- white_replications %>%
   ggplot(aes(x=mean_same_race))+
@@ -442,7 +483,7 @@ white_permutation_plot<- white_replications %>%
 write_rds(white_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_white.rds")
 
 
-#now to see how likely it is to get the same same_race value or smaller, we can see how many times it happened throught the 1000 replications
+# Now to see how likely it is to get the same same_race value or smaller, we can see how many times it happened throughout the 10000 replications
   
 
 white_replications %>%
@@ -469,7 +510,9 @@ white_replications %>%
 
 ```
 
-```{r}
+```{r Asian permutation}
+# We use the permutation data here for Asian distribution and corresponding graphical representations. We repeat the same process as above:
+
 asian_replications <- m_random_race%>%
   filter(race_r=="Asian")%>%
   select(n_same_race)%>%
@@ -495,7 +538,9 @@ asian_replications %>%
   nrow() / 10000
 ```
 
-```{r}
+```{r Black permutation}
+# We repeat the process with the Black permutation data. We use the same process as we used for the white distribution: 
+
 black_replications <- m_random_race%>%
   filter(race_r=="Black or African American")%>%
   select(n_same_race)%>%
@@ -520,7 +565,8 @@ black_replications %>%
   nrow() / 10000
 ```
 
-```{r}
+```{r Hispanic permuatation data}
+# We do the same for the Hispanic permutation data. We use the same process as we did with the white permutation data:
 
 hispanic_replications <-m_random_race%>%
   filter(race_r=="Hispanic or Latino")%>%

@@ -17,7 +17,7 @@ library(ggplot2)
 
 
 
-# Datasets scraped from the Spotify API in a Python script in extractions folder
+
 
 # Due to the immense difficulty and time taken to run the data extraction
 
@@ -36,7 +36,7 @@ race_violin <- read_rds("./race_violin.rds")
 
 
 
-# Import data for observed Histograms)
+# Import data for observed Histograms
 
 
 
@@ -151,8 +151,7 @@ ui <- navbarPage(
     
     
     
-    
-    # "BEYOND K-POP?" TAB compares BTS' statistics with those of prominent Korean artists
+# we create the tab for the race visualization and its sidebar layout for the different races:
     
     
     
@@ -192,7 +191,7 @@ ui <- navbarPage(
     
     
     
-    # "BEYOND BILLBOARD?" TAB compares BTS' statistics with those of prominent artists in Billboard
+  
     
     
     
@@ -200,7 +199,7 @@ ui <- navbarPage(
         
         title = "Race permutation test",
         
-        h3("How Does BTS Compare in the Top 10 Billboard Artists?"),
+        h3(""),
         
         br(),
         
@@ -210,7 +209,7 @@ ui <- navbarPage(
                 
                 radioButtons(inputId = "us_type", 
                              
-                             label = "Musical Attribute:", 
+                             label = "Race:", 
                              
                              choices = c("White", "Black", "Asian", "Hispanic"
                                          
@@ -236,7 +235,7 @@ ui <- navbarPage(
 
 
 
-# Define server logic required to create user interface elements
+# Define server logic required to create user interface elements using function()
 
 
 
@@ -245,7 +244,7 @@ server <- function(input, output) {
     
     
     
-    # Content of the "ABOUT" tab
+    # Content of the "ABOUT" tab. We put a discription of our app in the p()
     
     
     
@@ -296,7 +295,6 @@ server <- function(input, output) {
     
     
     
-    # References to RDS files relevant to the "BEYOND K-POP?" tab
     
     
     
@@ -340,7 +338,7 @@ server <- function(input, output) {
     
     
     
-    # References to RDS files relevant to the "BEYOND BILLBOARD?" tab
+
     
     
     
