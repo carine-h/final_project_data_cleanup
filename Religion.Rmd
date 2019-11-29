@@ -56,29 +56,90 @@ m_random_religion$n_same_religion[i]<-count}
 ```
 
 ```{r}
-asian_replications <- m_random_race%>%
-  filter(race_r=="Asian")%>%
-  select(n_same_race)%>%
-  rep_sample_n(size = 18, replace = TRUE, reps = 10000) %>% 
+christian_replications <- m_random_religion%>%
+  filter(religion_r=="Christian")%>%
+  select(n_same_religion)%>%
+  rep_sample_n(size = 38, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
-  summarize(mean_same_race = mean(n_same_race))
+  summarize(mean_same_religion = mean(n_same_religion))
 
-mean_observed_asian <- as.numeric(m%>%
-  filter(race_r=="Asian")%>%
-  summarize(mean=mean(n_same_race)))
+mean_observed_christian <- as.numeric(m%>%
+  filter(religion_r=="Christian")%>%
+  summarize(mean=mean(n_same_religion)))
 
-asian_permutation_plot<-asian_replications %>%
-  ggplot(aes(x=mean_same_race))+
+christian_permutation_plot<-christian_replications %>%
+  ggplot(aes(x=mean_same_religion))+
   geom_density()+
-  geom_vline(xintercept=mean_observed_asian, color = "blue") + 
-  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
+  geom_vline(xintercept=mean_observed_christian, color = "blue") + 
+  labs(title = "Distribution of Mean same religion values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same religion Friends per Replication")
 
 
-write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_asian.rds")
+write_rds(christian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_christian.rds")
              
-asian_replications %>%
-  filter(mean_same_race >= mean_observed_asian) %>%
+christian_replications %>%
+  filter(mean_same_religion >= mean_observed_christian) %>%
   nrow() / 10000
+
+m %>%
+  filter(religion_r == "Christian") %>%
+  nrow()
+```
+
+```{r}
+agnostic_or_atheist_replications <- m_random_religion%>%
+  filter(religion_r=="Agnostic or Atheist")%>%
+  select(n_same_religion)%>%
+  rep_sample_n(size = 19, replace = TRUE, reps = 10000) %>% 
+  group_by(replicate) %>% 
+  summarize(mean_same_religion = mean(n_same_religion))
+
+mean_observed_agnostic_or_atheist <- as.numeric(m%>%
+  filter(religion_r=="Agnostic or Atheist")%>%
+  summarize(mean=mean(n_same_religion)))
+
+agnostic_or_atheist_permutation_plot<-agnostic_or_atheist_replications %>%
+  ggplot(aes(x=mean_same_religion))+
+  geom_density()+
+  geom_vline(xintercept=mean_observed_agnostic_or_atheist, color = "blue") + 
+  labs(title = "Distribution of Mean same religion values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same religion Friends per Replication")
+
+
+write_rds(agnostic_or_atheist_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_agnostic_or_atheist.rds")
+             
+agnostic_or_atheist_replications %>%
+  filter(mean_same_religion >= mean_observed_agnostic_or_atheist) %>%
+  nrow() / 10000
+
+```
+
+```{r}
+muslim_replications <- m_random_religion %>%
+  filter(religion_r=="Muslim")%>%
+  select(n_same_religion)%>%
+  rep_sample_n(size = 1, replace = TRUE, reps = 10000) %>% 
+  group_by(replicate) %>% 
+  summarize(mean_same_religion = mean(n_same_religion))
+
+mean_observed_muslim <- as.numeric(m%>%
+  filter(religion_r=="Muslim")%>%
+  summarize(mean=mean(n_same_religion)))
+
+muslim_permutation_plot<-muslim_replications %>%
+  ggplot(aes(x=mean_same_religion))+
+  geom_density()+
+  geom_vline(xintercept=mean_observed_muslim, color = "blue") + 
+  labs(title = "Distribution of Mean same religion values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same religion Friends per Replication")
+
+
+write_rds(muslim_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_muslim.rds")
+             
+muslim_replications %>%
+  filter(mean_same_religion >= mean_observed_muslim) %>%
+  nrow() / 10000
+
+m %>%
+  filter(religion_r == "Muslim") %>%
+  nrow()
 ```
 
 
