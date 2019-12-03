@@ -96,12 +96,7 @@ white_permutation_plot<- white_replications %>%
 
 
 # Now to see how likely it is to get the same same_race value or smaller, we can see how many times it happened throughout the 10000 replications
-  
 
-white_replications %>%
-  filter(mean_same_race <= mean_observed_white) %>%
-  nrow() / 10000
-  
 
 
 #?sample

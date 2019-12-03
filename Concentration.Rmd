@@ -27,15 +27,18 @@ m <- read_csv("m.csv")
 ```
 
 
-```{r}
-ggplot(m, aes(x = concentration_r,fill=concentration_r)) +
+```{r, visualizing data points for concentration}
+data_plot_concentration<- ggplot(m, aes(x = concentration_r,fill=concentration_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage") +
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.position = "none")
+
+data_plot_concentration
 ```
 
 
-```{r}
+```{r, visualizing findings for concentration}
 concentration_violin <- m %>%
   filter(concentration_p1 %in% c("Humanities","Social Sciences","STEM"))%>%
   ggplot(aes(x=concentration_r, y = n_same_concentration, color = concentration_r)) +
@@ -43,10 +46,14 @@ concentration_violin <- m %>%
   stat_summary(fun.y = mean, geom = "point") +
   geom_jitter(shape = 16, color = "black", size = .5) + 
   theme(axis.text.x = element_text(angle = 90)) +
-  labs(title = "Distribution of Same Race Friends per Respondent Race", y = "Number of Same Race Friends")
+  labs(title = "Distribution of Same Concentration Friends per Respondent Concentration", y = "Number of Same Concentration Friends") +
+  theme(legend.position = "none")
+
+concentration_violin
 ```
 
-```{r}
+
+```{r, creating random sample for concentration}
 m_random_concentration<-
     
     tibble(replicate = 1:10000)%>%
@@ -90,11 +97,8 @@ count<-count}
 m_random_concentration$n_same_concentration[i]<-count}
 ```
 
-```{r}
-m%>%
-  filter(concentration_r=="Social Sciences")%>%
-  count()
 
+```{r, STEM permutation test}
 stem_replications <- m_random_concentration %>%
    filter(concentration_r=="STEM")%>%
   select(n_same_concentration)%>%
@@ -111,42 +115,50 @@ stem_permutation_plot<- stem_replications %>%
   geom_density()+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+
+stem_permutation_plot
 ```
 
-```{r}
-stem_replications <- m_random_concentration %>%
+
+```{r, Humanities permutation test}
+humanities_replications <- m_random_concentration %>%
    filter(concentration_r=="Humanities")%>%
   select(n_same_concentration)%>%
   rep_sample_n(size = 10, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_concentration = mean(n_same_concentration))
 
-mean_observed_stem <- as.numeric(m%>%
+mean_observed_humanities <- as.numeric(m%>%
   filter(concentration_r=="Humanities")%>%
   summarize(mean=mean(n_same_concentration)))
 
-stem_permutation_plot<- stem_replications %>%
+humanities_permutation_plot<- humanities_replications %>%
   ggplot(aes(x=mean_same_concentration))+
   geom_density()+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is   bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+
+humanities_permutation_plot
 ```
 
-```{r}
-stem_replications <- m_random_concentration %>%
+
+```{r, Social Sciences permutation test}
+social_sciences_replications <- m_random_concentration %>%
    filter(concentration_r=="Social Sciences")%>%
   select(n_same_concentration)%>%
   rep_sample_n(size = 19, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_concentration = mean(n_same_concentration))
 
-mean_observed_stem <- as.numeric(m%>%
+mean_observed_social_sciences <- as.numeric(m%>%
   filter(concentration_r=="Social Sciences")%>%
   summarize(mean=mean(n_same_concentration)))
 
-stem_permutation_plot<- stem_replications %>%
+social_sciences_permutation_plot<- stem_replications %>%
   ggplot(aes(x=mean_same_concentration))+
   geom_density()+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+
+social_sciences_permutation_plot
 ```

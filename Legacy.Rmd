@@ -5,4 +5,140 @@ date: "11/29/2019"
 output: html_document
 ---
 
-knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(googlesheets4)
+library(janitor)
+library(stats)
+library(fs)
+library(readxl)
+library(infer)
+library(pracma)
+library(reshape2)
+library(moderndive)
+library(gt)
+library(ggplot2)
+```
+
+```{r}
+m <- read_csv("m.csv")
+```
+
+
+```{r}
+m%>%
+  filter(legacy_r=="Not legacy")%>%
+  count()
+
+data_plot_legacy<- ggplot(m, aes(x = legacy_r)) +
+  geom_bar(aes(y = (..count..)/sum(..count..))) +
+  labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
+  scale_y_continuous(labels = scales::percent)
+
+data_plot_legacy
+```
+
+
+```{r}
+legacy_violin <- m %>%
+  ggplot(aes(x=legacy_r, y = n_same_legacy, color = legacy_r)) +
+  geom_violin() +
+  stat_summary(fun.y = mean, geom = "point") +
+  geom_jitter(shape = 16, color = "black", size = .5) + 
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(title = "Distribution of Same Race Friends per Respondent Legacyt", y = "Number of Same Legacy Friends") +
+  theme(legend.position = "none")
+
+legacy_violin
+```
+
+
+```{r}
+m_random_legacy<-
+    
+    tibble(replicate = 1:10000)%>%
+  
+    mutate(legacy_r = sample(c("Legacy","Not legacy"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(legacy_p1 = sample(c("Legacy","Not legacy"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(legacy_p2 = sample(c("Legacy","Not legacy"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(legacy_p3 = sample(c("Legacy","Not legacy"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(legacy_p4 = sample(c("Legacy","Not legacy"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(n_same_legacy = NA)
+
+# We repeat the same for loop as we did in the beginning with our collected data, but with the sample we generated with the for loop above:
+
+for (i in 1:10000) {
+
+respondent_legacy<-m_random_legacy$legacy_r[i]
+
+count=0
+
+if(respondent_legacy==m_random_legacy$legacy_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_legacy==m_random_legacy$legacy_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_legacy==m_random_legacy$legacy_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_legacy==m_random_legacy$legacy_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m_random_legacy$n_same_legacy[i]<-count}
+```
+
+
+```{r}
+
+legacy_yes_replications <- m_random_legacy %>%
+   filter(legacy_r=="Legacy")%>%
+  select(n_same_legacy)%>%
+  rep_sample_n(size = 8, replace = TRUE, reps = 10000) %>% 
+  group_by(replicate) %>% 
+  summarize(mean_same_legacy = mean(n_same_legacy))
+
+mean_observed_legacy_yes <- as.numeric(m%>%
+  filter(legacy_r=="Legacy")%>%
+  summarize(mean=mean(n_same_legacy)))
+
+legacy_yes_permutation_plot<- legacy_yes_replications %>%
+  ggplot(aes(x=mean_same_legacy))+
+  geom_density()+
+  geom_vline(xintercept=mean_observed_legacy_yes, color = "blue") + 
+  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Legacy Friends per Replication")
+
+legacy_yes_permutation_plot
+```
+
+
+```{r}
+legacy_no_replications <- m_random_legacy %>%
+   filter(legacy_r=="Not legacy")%>%
+  select(n_same_legacy)%>%
+  rep_sample_n(size = 58, replace = TRUE, reps = 10000) %>% 
+  group_by(replicate) %>% 
+  summarize(mean_same_legacy = mean(n_same_legacy))
+
+mean_observed_legacy_no <- as.numeric(m%>%
+  filter(legacy_r=="Not legacy")%>%
+  summarize(mean=mean(n_same_legacy)))
+
+legacy_no_permutation_plot<- legacy_no_replications %>%
+  ggplot(aes(x=mean_same_legacy))+
+  geom_density()+
+  geom_vline(xintercept=mean_observed_legacy_no, color = "blue") + 
+  labs(title = "Distribution of Mean same legacy values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Legacy Friends per Replication")
+
+legacy_no_permutation_plot
+```

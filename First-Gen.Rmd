@@ -5,4 +5,137 @@ date: "11/29/2019"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(googlesheets4)
+library(janitor)
+library(stats)
+library(fs)
+library(readxl)
+library(infer)
+library(pracma)
+library(reshape2)
+library(moderndive)
+library(gt)
+library(ggplot2)
+```
 
+```{r}
+m <- read_csv("m.csv")
+```
+
+
+```{r}
+
+data_plot_firstgen<- ggplot(m, aes(x = firstgen_r)) +
+  geom_bar(aes(y = (..count..)/sum(..count..))) +
+  labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
+  scale_y_continuous(labels = scales::percent)
+
+data_plot_firstgen
+```
+
+
+```{r}
+firstgen_violin <- m %>%
+  ggplot(aes(x=firstgen_r, y = n_same_firstgen, color = firstgen_r)) +
+  geom_violin() +
+  stat_summary(fun.y = mean, geom = "point") +
+  geom_jitter(shape = 16, color = "black", size = .5) + 
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(title = "Distribution of Same Race Friends per Respondent Firstgen", y = "Number of Same Firstgen Friends") +
+  theme(legend.position = "none")
+
+firstgen_violin
+```
+
+
+```{r}
+m_random_firstgen<-
+    
+    tibble(replicate = 1:10000)%>%
+  
+    mutate(firstgen_r = sample(c("Yes","No"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(firstgen_p1 = sample(c("Yes","No"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(firstgen_p2 = sample(c("Yes","No"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(firstgen_p3 = sample(c("Yes","No"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(firstgen_p4 = sample(c("Yes","No"), size=10000, replace = TRUE, prob=c(0.12,0.88)))%>%
+  
+  mutate(n_same_firstgen = NA)
+
+# We repeat the same for loop as we did in the beginning with our collected data, but with the sample we generated with the for loop above:
+
+for (i in 1:10000) {
+
+respondent_firstgen<-m_random_firstgen$firstgen_r[i]
+
+count=0
+
+if(respondent_firstgen==m_random_firstgen$firstgen_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_firstgen==m_random_firstgen$firstgen_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_firstgen==m_random_firstgen$firstgen_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_firstgen==m_random_firstgen$firstgen_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m_random_firstgen$n_same_firstgen[i]<-count}
+```
+
+
+```{r}
+
+firstgen_yes_replications <- m_random_firstgen %>%
+   filter(firstgen_r=="Yes")%>%
+  select(n_same_firstgen)%>%
+  rep_sample_n(size = 20, replace = TRUE, reps = 10000) %>% 
+  group_by(replicate) %>% 
+  summarize(mean_same_firstgen = mean(n_same_firstgen))
+
+mean_observed_firstgen_yes <- as.numeric(m%>%
+  filter(firstgen_r=="Yes")%>%
+  summarize(mean=mean(n_same_firstgen)))
+
+firstgen_yes_permutation_plot<- firstgen_yes_replications %>%
+  ggplot(aes(x=mean_same_firstgen))+
+  geom_density()+
+  geom_vline(xintercept=mean_observed_firstgen_yes, color = "blue") + 
+  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+
+firstgen_yes_permutation_plot
+```
+
+
+```{r}
+firstgen_no_replications <- m_random_firstgen %>%
+   filter(firstgen_r=="No")%>%
+  select(n_same_firstgen)%>%
+  rep_sample_n(size = 47, replace = TRUE, reps = 10000) %>% 
+  group_by(replicate) %>% 
+  summarize(mean_same_firstgen = mean(n_same_firstgen))
+
+mean_observed_firstgen_no <- as.numeric(m%>%
+  filter(firstgen_r=="No")%>%
+  summarize(mean=mean(n_same_firstgen)))
+
+firstgen_no_permutation_plot<- firstgen_no_replications %>%
+  ggplot(aes(x=mean_same_firstgen))+
+  geom_density()+
+  geom_vline(xintercept=mean_observed_firstgen_no, color = "blue") + 
+  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Firstgen Friends per Replication")
+
+firstgen_no_permutation_plot
+```

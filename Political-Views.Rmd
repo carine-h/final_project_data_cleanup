@@ -65,20 +65,24 @@ political_data<-
   drop_na(avg_distance, political_r_numeric)%>%
   select(political_r, political_r_numeric, political_p1_numeric, political_p2_numeric, political_p3_numeric, political_p4_numeric, avg_distance)
 
-ggplot(political_data, aes(x=political_r_numeric,y=avg_distance))+
+linear_plot_political<- ggplot(political_data, aes(x=political_r_numeric,y=avg_distance))+
   geom_jitter() +
-  stat_smooth (method="lm")
+  stat_smooth (method="lm") +
+  labs(title="Relationship between Own and Friends' Political Values", x="Political Values of Respondent", y="Average Political Values of Friend Group")
 
-political_lm_model<-
+political_lm_model <-
   lm(avg_distance ~ political_r_numeric, data = political_data)
 
-get_regression_table(political_lm_model)%>%
+regression_table_political <- get_regression_table(political_lm_model)%>%
   mutate(Term= c("Intercept","Coefficient"))%>%
   mutate("Estimate"=`estimate`, "2.5th Percentile"=`lower_ci`, "97.5th Percentile"=`upper_ci`, "Results"=`Term`)%>%
   select(`Results`, `Estimate`, `2.5th Percentile`, `97.5th Percentile`)%>%
   gt()%>%
   tab_header(title="Regression Table for Relationship between Own and Friends' Political Opinions", subtitle = "0 = Very Conservative, 4 = Very Liberal")
+
+linear_plot_political
   
+regression_table_political
 ```
 
 
@@ -86,12 +90,13 @@ get_regression_table(political_lm_model)%>%
 ```{r}
 
 
-ggplot(political_data, aes(x = political_r_numeric, fill = political_r_numeric))+ 
+data_plot_political <- ggplot(political_data, aes(x = political_r_numeric, fill = political_r_numeric))+ 
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   scale_y_continuous(labels = scales::percent) +
   labs(title="Distribution of Data Points", subtitle="0 = Very Conservative, 4 = Very Liberal", x="Different Values", y= "Percentage") 
- 
 
+ 
+data_plot_political
 
 ```
 
