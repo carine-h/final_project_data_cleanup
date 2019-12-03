@@ -5,7 +5,7 @@ date: "11/29/2019"
 output: html_document
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 library(tidyverse)
 library(googlesheets4)
@@ -18,11 +18,41 @@ library(pracma)
 ```
 
 ```{r}
-m <- read_csv("m.csv")%>%
+m <- read_csv("m.csv") %>%
   drop_na()
+```
+
+```{r, visualizing data points for race}
+data_plot_race<- ggplot(m, aes(x = race_r,fill=race_r)) +
+  geom_bar(aes(y = (..count..)/sum(..count..))) +
+  labs(title="Distribution of Data Points", x="Different Values", y= "Percentage") +
+  scale_y_continuous(labels = scales::percent) +
+  theme(legend.position = "none")
+
+data_plot_race
 
 
-  
+write_rds(data_plot_race, "~/Desktop/GOV_1005/Final_Project/shiny/race/barplot_race.rds")
+
+
+```
+
+
+```{r, visualizing findings for race}
+race_violin <- m %>%
+  filter(race_r %in% c("White","Black or African American","Asian","Hispanic or Latino","Two or more races")) %>%
+  ggplot(aes(x=race_r, y = n_same_race, color = race_r)) +
+  geom_violin() +
+  stat_summary(fun.y = mean, geom = "point") +
+  geom_jitter(shape = 16, color = "black", size = .5) + 
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(title = "Distribution of Same Race Friends per Respondent race", y = "Number of Same Race Friends") +
+  theme(legend.position = "none")
+
+race_violin
+
+
+write_rds(race_violin, "~/Desktop/GOV_1005/Final_Project/shiny/race/violin_race.rds")
 ```
 
 
@@ -97,31 +127,7 @@ white_permutation_plot<- white_replications %>%
   labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
 
 
-#write_rds(white_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_white.rds")
-
-
-# Now to see how likely it is to get the same same_race value or smaller, we can see how many times it happened throughout the 10000 replications
-
-
-
-#?sample
-#mutate(which_bowl = sample(c("Bowl 1", "Bowl 2"), size=10000, replace = TRUE,prob=c(0.1,0.9)))
-#z<- tibble(replicate = 1:10000)%>%
- # mutate(flip = sample(c(0,0.25,0.5,0.75,1), size=10000, replace = TRUE, prob=c(0.25, 0.05, 0.4, #0.05, 0.25))) %>%
-  
-    #mutate(coin=rbinom(n=10000,size=33,prob=flip))
-
-white_permutation_plot
-```
-
-```{r}
-#z<- tibble(replicate = 1:33)%>%
- 
-# mutate(flip = sample(c("White","Nonwhite"), size=33, replace = TRUE, prob=c(0.6,0.4))) %>%
-  
- #   mutate(coin=rbinom(n=10000,size=33,prob = 0.6))
-
-
+write_rds(white_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/race/white_permutation.rds")
 ```
 
 ```{r Asian permutation}
@@ -147,6 +153,8 @@ asian_permutation_plot<-asian_replications %>%
 asian_permutation_plot
 
 #write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_asian.rds")
+
+write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/race/asian_permutation.rds")
 
 ```
 
@@ -174,6 +182,8 @@ black_permutation_plot <- black_replications %>%
 
 black_permutation_plot
 
+write_rds(black_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/race/black_permutation.rds")
+
 ```
 
 ```{r Hispanic permuatation data}
@@ -200,5 +210,6 @@ hispanic_permutation_plot <- hispanic_replications %>%
 
 hispanic_permutation_plot 
 
-  
+write_rds(hispanic_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/race/hispanic_permutation.rds")
+
 ```

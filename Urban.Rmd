@@ -6,8 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(googlesheets4)
 library(janitor)
@@ -35,12 +34,31 @@ m <- read_csv("m.csv")
 ```
 
 ```{r}
-ggplot(m, aes(x = urban_r)) +
+data_plot_urban <- ggplot(m, aes(x = urban_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
   scale_y_continuous(labels = scales::percent)
+
+data_plot_urban
+
+write_rds(data_plot_urban, "~/Desktop/GOV_1005/Final_Project/shiny/urban/barplot_urban.rds")
 ```
 
+```{r}
+urban_violin <- m %>%
+  ggplot(aes(x=urban_r, y = n_same_urban, color = urban_r)) +
+  geom_violin() +
+  stat_summary(fun.y = mean, geom = "point") +
+  geom_jitter(shape = 16, color = "black", size = .5) + 
+  theme(axis.text.x = element_text(angle = 90)) +
+  labs(title = "Distribution of Same Urbanisation Friends per Respondent International", y = "Number of Same International Friends") +
+  theme(legend.position = "none")
+
+urban_violin
+
+
+write_rds(urban_violin, "~/Desktop/GOV_1005/Final_Project/shiny/urban/violin_urban.rds")
+```
 
 
 ```{r}
@@ -106,7 +124,12 @@ rural_permutation_plot<- rural_replications %>%
   geom_density()+
   geom_vline(xintercept=mean_observed_rural, color = "blue") + 
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+
+rural_permutation_plot
+
+write_rds(rural_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/urban/rural_permutation.rds")
 ```
+
 
 ```{r}
 urban_replications <- m_random_urban %>%
@@ -124,4 +147,9 @@ urban_permutation_plot<- urban_replications %>%
   ggplot(aes(x=mean_same_urban))+
   geom_density()+
   geom_vline(xintercept=mean_observed_urban, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+
+urban_permutation_plot
+
+write_rds(urban_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/urban/urban_permutation.rds")
+```

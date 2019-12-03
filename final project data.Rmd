@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 library(tidyverse)
 library(googlesheets4)
@@ -22,8 +22,7 @@ library(pracma)
 ```{r name cleaning}
 dir_create("raw-data")
 
-
-skirty <- read_excel("raw-data/skrt.xlsx")
+skirty <- read_excel("raw-data/data.xlsx")
 
 skirty
 
@@ -336,11 +335,11 @@ m$n_same_legacy[i]<-count}
 
 ```{r}
 m <- m%>%
-  mutate(urban_r=if_else(urban_r=="Rural", "Rural","Urban"))%>%
-  mutate(urban_p1=if_else(urban_r=="Rural", "Rural","Urban"))%>%
-  mutate(urban_p2=if_else(urban_r=="Rural", "Rural","Urban"))%>%
-  mutate(urban_p3=if_else(urban_r=="Rural", "Rural","Urban"))%>%
-  mutate(urban_p4=if_else(urban_r=="Rural", "Rural","Urban"))
+  mutate(urban_r=if_else(urban_r %in% c("Rural","rural"), "Rural","Urban"))%>%
+  mutate(urban_p1=if_else(urban_p1 %in% c("Rural","rural"), "Rural","Urban"))%>%
+  mutate(urban_p2=if_else(urban_p2 %in% c("Rural","rural"), "Rural","Urban"))%>%
+  mutate(urban_p3=if_else(urban_p3 %in% c("Rural","rural"), "Rural","Urban"))%>%
+  mutate(urban_p4=if_else(urban_p4 %in% c("Rural","rural"), "Rural","Urban"))
 
 m<-
   m%>%
@@ -375,7 +374,6 @@ m$n_same_urban[i]<-count}
 
 ```{r friend groups}
 # we gather the data we refined and create a friend group data set. This counts the number of answers matching the respondent's in each friend group for each varible:
-
 write.csv(m, 'm.csv')
 
 friend_groups<-

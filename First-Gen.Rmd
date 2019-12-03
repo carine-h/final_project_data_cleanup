@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(googlesheets4)
 library(janitor)
@@ -36,6 +36,8 @@ data_plot_firstgen<- ggplot(m, aes(x = firstgen_r)) +
   scale_y_continuous(labels = scales::percent)
 
 data_plot_firstgen
+
+write_rds(data_plot_firstgen, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/barplot_firstgen.rds")
 ```
 
 
@@ -50,6 +52,8 @@ firstgen_violin <- m %>%
   theme(legend.position = "none")
 
 firstgen_violin
+
+write_rds(firstgen_violin, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/violin_firstgen.rds")
 ```
 
 
@@ -118,6 +122,8 @@ firstgen_yes_permutation_plot<- firstgen_yes_replications %>%
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
 
 firstgen_yes_permutation_plot
+
+write_rds(firstgen_yes_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/firstgen_yes_permutation.rds")
 ```
 
 
@@ -140,4 +146,6 @@ firstgen_no_permutation_plot<- firstgen_no_replications %>%
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Firstgen Friends per Replication")
 
 firstgen_no_permutation_plot
+
+write_rds(firstgen_no_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/firstgen_no_permutation.rds")
 ```

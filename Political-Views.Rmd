@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(googlesheets4)
 library(janitor)
@@ -83,6 +83,7 @@ regression_table_political <- get_regression_table(political_lm_model)%>%
 linear_plot_political
   
 regression_table_political
+
 ```
 
 

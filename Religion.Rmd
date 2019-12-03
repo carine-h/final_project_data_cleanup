@@ -5,7 +5,8 @@ date: "11/29/2019"
 output: html_document
 ---
 
-```{r restup, include = FALSE, warning = FALSE, echo = FALSE}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(googlesheets4)
 library(janitor)
@@ -31,6 +32,8 @@ data_plot_religion<- ggplot(m, aes(x = religion_r,fill=religion_r)) +
 
 data_plot_religion
 
+write_rds(data_plot_religion, "~/Desktop/GOV_1005/Final_Project/shiny/religion/barplot_religion.rds")
+
 ```
 
 ```{r}
@@ -45,14 +48,14 @@ religion_violin <- m %>%
   theme(legend.position = "none")
 
 religion_violin
+
+write_rds(religion_violin, "~/Desktop/GOV_1005/Final_Project/shiny/religion/violin_religion.rds")
 ```
 
 
 
 ```{r, religion permutation test}
 # We ran a permutation below to compare to the data collected above. This permutation is based on the overall religion makeup of Harvard-- NOT the religion makeup of just friend groups. We will create a random sample with the proportions reported by Harvard and compare the outcome to the racial makeup of friend groups to see if there is self-segregation:
-
-
 
 m_random_religion<-
     
@@ -119,13 +122,13 @@ christian_permutation_plot<-christian_replications %>%
  christian_permutation_plot
 
 
-#write_rds(christian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_christian.rds")
+write_rds(christian_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/religion/christian_permutation.rds")
              
 
 ```
 
 ```{r}
-agnostic_or_atheist_replications <- m_random_religion%>%
+agnostic_or_atheist_replications <- m_random_religion %>%
   filter(religion_r=="Agnostic or Atheist")%>%
   select(n_same_religion)%>%
   rep_sample_n(size = 33, replace = TRUE, reps = 10000) %>% 
@@ -144,10 +147,9 @@ agnostic_or_atheist_permutation_plot<-agnostic_or_atheist_replications %>%
 
 agnostic_or_atheist_permutation_plot
 
-#write_rds(agnostic_or_atheist_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_agnostic_or_atheist.rds")
+
+write_rds(agnostic_or_atheist_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/religion/agnostic_or_atheist_permutation.rds")
              
-
-
 ```
 
 

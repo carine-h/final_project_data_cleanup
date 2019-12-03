@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(scales)
 library(tidyverse)
 library(googlesheets4)
@@ -23,7 +23,8 @@ library(ggplot2)
 ```
 
 ```{r}
-m <- read_csv("m.csv")
+m <- read_csv("m.csv") %>%
+  drop_na()
 ```
 
 
@@ -36,12 +37,15 @@ data_plot_concentration<- ggplot(m, aes(x = concentration_r,fill=concentration_r
 
 data_plot_concentration
 
+
+write_rds(data_plot_concentration, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/barplot_concentration.rds")
+
 ```
 
 
 ```{r, visualizing findings for concentration}
 concentration_violin <- m %>%
-  filter(concentration_p1 %in% c("Humanities","Social Sciences","STEM"))%>%
+  filter(concentration_r %in% c("Humanities","Social Sciences","STEM"))%>%
   ggplot(aes(x=concentration_r, y = n_same_concentration, color = concentration_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
@@ -50,7 +54,9 @@ concentration_violin <- m %>%
   labs(title = "Distribution of Same Concentration Friends per Respondent Concentration", y = "Number of Same Concentration Friends") +
   theme(legend.position = "none")
 
-concentration_violin
+
+
+write_rds(concentration_violin, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/violin_concentration.rds")
 ```
 
 
@@ -118,6 +124,8 @@ stem_permutation_plot<- stem_replications %>%
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
 
 stem_permutation_plot
+
+write_rds(stem_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/stem_permutation.rds")
 ```
 
 
@@ -140,6 +148,8 @@ humanities_permutation_plot<- humanities_replications %>%
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is   bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
 
 humanities_permutation_plot
+
+write_rds(humanities_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/humanities_permutation.rds")
 ```
 
 
@@ -155,11 +165,13 @@ mean_observed_social_sciences <- as.numeric(m%>%
   filter(concentration_r=="Social Sciences")%>%
   summarize(mean=mean(n_same_concentration)))
 
-social_sciences_permutation_plot<- stem_replications %>%
+social_sciences_permutation_plot<- social_sciences_replications %>%
   ggplot(aes(x=mean_same_concentration))+
   geom_density()+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
 
 social_sciences_permutation_plot
+
+write_rds(social_sciences_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/social_sciences_permutation.rds")
 ```

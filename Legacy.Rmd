@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(googlesheets4)
 library(janitor)
@@ -25,21 +25,18 @@ library(ggplot2)
 m <- read_csv("m.csv")%>%
   drop_na()
 
-
 ```
 
 
 ```{r}
-m%>%
-  filter(legacy_r=="Not legacy")%>%
-  count()
-
 data_plot_legacy<- ggplot(m, aes(x = legacy_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
   scale_y_continuous(labels = scales::percent)
 
 data_plot_legacy
+
+write_rds(data_plot_legacy, "~/Desktop/GOV_1005/Final_Project/shiny/legacy/barplot_legacy.rds")
 ```
 
 
@@ -54,6 +51,8 @@ legacy_violin <- m %>%
   theme(legend.position = "none")
 
 legacy_violin
+
+write_rds(legacy_violin, "~/Desktop/GOV_1005/Final_Project/shiny/legacy/violin_legacy.rds")
 ```
 
 
@@ -122,6 +121,8 @@ legacy_yes_permutation_plot<- legacy_yes_replications %>%
   labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Legacy Friends per Replication")
 
 legacy_yes_permutation_plot
+
+write_rds(legacy_yes_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/legacy/legacy_yes_permutation.rds")
 ```
 
 
@@ -144,4 +145,6 @@ legacy_no_permutation_plot<- legacy_no_replications %>%
   labs(title = "Distribution of Mean same legacy values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Legacy Friends per Replication")
 
 legacy_no_permutation_plot
+
+write_rds(legacy_no_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/legacy/legacy_no_permutation.rds")
 ```
