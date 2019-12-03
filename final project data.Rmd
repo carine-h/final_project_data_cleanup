@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 
 library(tidyverse)
 library(googlesheets4)
@@ -334,8 +334,49 @@ count<-count}
 m$n_same_legacy[i]<-count}
 ```
 
+```{r}
+m <- m%>%
+  mutate(urban_r=if_else(urban_r=="Rural", "Rural","Urban"))%>%
+  mutate(urban_p1=if_else(urban_r=="Rural", "Rural","Urban"))%>%
+  mutate(urban_p2=if_else(urban_r=="Rural", "Rural","Urban"))%>%
+  mutate(urban_p3=if_else(urban_r=="Rural", "Rural","Urban"))%>%
+  mutate(urban_p4=if_else(urban_r=="Rural", "Rural","Urban"))
+
+m<-
+  m%>%
+  mutate(n_same_urban= NA)
+
+# Using a for loop, we go through the 67 friend groups and count the number of friends that have a urban matching the respondent's race. Each time there's a match, a 1 is added to n_same_race which was created above. If no races match at all, the value in n_same_race will be 0:
+
+for (i in 1:67) {
+
+respondent_urban<-m$urban_r[i]
+
+count=0
+
+if(respondent_urban==m$urban_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_urban==m$urban_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_urban==m$urban_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_urban==m$urban_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m$n_same_urban[i]<-count}
+```
+
 ```{r friend groups}
 # we gather the data we refined and create a friend group data set. This counts the number of answers matching the respondent's in each friend group for each varible:
+
+write.csv(m, 'm.csv')
 
 friend_groups<-
   m%>%
@@ -356,7 +397,7 @@ white_observed_histogram <- m%>%filter(race_r=="White")%>%
 
 
 
-write_rds(white_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_white.rds")
+#write_rds(white_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_white.rds")
 
 # the same is done from above, but with Black or African American friends:
 black_observed_histogram <- m%>%filter(race_r=="Black or African American")%>%
@@ -367,7 +408,7 @@ black_observed_histogram <- m%>%filter(race_r=="Black or African American")%>%
   theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
 
-write_rds(black_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_black.rds")
+#write_rds(black_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_black.rds")
 
 # the same is done with Asian friends:
 asian_observed_histogram <- m%>%filter(race_r=="Asian")%>%
@@ -377,7 +418,7 @@ asian_observed_histogram <- m%>%filter(race_r=="Asian")%>%
   labs(title = "Observed Distribution of Same Race Friends for Asian Respondents", caption =  "the red line shows how our observed distribtuion compares to the expected \n mean when looking at the proportion of races in the total student body") +
   theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
-write_rds(asian_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_asian.rds")
+#write_rds(asian_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_asian.rds")
 
 # the same is done with Hispanic friends:
 hispanic_observed_histogram <- m%>%filter(race_r=="Hispanic or Latino")%>%
@@ -387,7 +428,7 @@ hispanic_observed_histogram <- m%>%filter(race_r=="Hispanic or Latino")%>%
   labs(title = "Observed Distribution of Same Race Friends for Hispanic/Latino Respondents", caption =  "the red line shows how our observed distribtuion compares to the expected \n mean when looking at the proportion of races in the total student body") +
   theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
-write_rds(hispanic_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_hispanic.rds")
+#write_rds(hispanic_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_hispanic.rds")
 
 # all of the histograms above will help us see the distribution of same race friends across different races and answer questions about if certain races self-segregate more than others. The violin plot below helps us do the same thing:
 
@@ -399,7 +440,7 @@ race_violin <- m %>%
   theme(axis.text.x = element_text(angle = 90)) +
   labs(title = "Distribution of Same Race Friends per Respondent Race", y = "Number of Same Race Friends")
 
-write_rds(race_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/race_violin.rds")
+#write_rds(race_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/race_violin.rds")
 
 m %>%
   ggplot(aes(x=religion_r, y = n_same_religion, color =religion_r)) +

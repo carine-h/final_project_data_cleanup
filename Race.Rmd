@@ -4,6 +4,23 @@ author: "Diego Arias"
 date: "11/29/2019"
 output: html_document
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+
+library(tidyverse)
+library(googlesheets4)
+library(janitor)
+library(stats)
+library(fs)
+library(readxl)
+library(infer)
+library(pracma)
+```
+
+```{r}
+m <- read_csv("m.csv")
+```
+
 
 ```{r, race permutation test}
 # We ran a permutation below to compare to the data collected above. This permutation is based on the overall race makeup of Harvard-- NOT the race makeup of just friend groups. We will create a random sample with the proportions reported by Harvard and compare the outcome to the racial makeup of friend groups to see if there is self-segregation:
@@ -75,7 +92,7 @@ white_permutation_plot<- white_replications %>%
   labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
 
 
-write_rds(white_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_white.rds")
+#write_rds(white_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_white.rds")
 
 
 # Now to see how likely it is to get the same same_race value or smaller, we can see how many times it happened throughout the 10000 replications
@@ -126,7 +143,7 @@ asian_permutation_plot<-asian_replications %>%
   labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
 
 
-write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_asian.rds")
+#write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_asian.rds")
              
 asian_replications %>%
   filter(mean_same_race >= mean_observed_asian) %>%
@@ -153,7 +170,7 @@ black_permutation_plot <- black_replications %>%
   geom_vline(xintercept=mean_observed_black, color = "blue") + 
   labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
 
-write_rds(black_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_black.rds")
+#write_rds(black_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_black.rds")
 
 black_replications %>%
   filter(mean_same_race >= mean_observed_black) %>%
@@ -180,7 +197,7 @@ hispanic_permutation_plot <- hispanic_replications %>%
   geom_vline(xintercept=mean_observed_hispanic, color = "blue") + 
   labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
 
-write_rds(hispanic_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_hispanic.rds")
+#write_rds(hispanic_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_hispanic.rds")
 
 hispanic_replications %>%
   filter(mean_same_race >= mean_observed_hispanic) %>%

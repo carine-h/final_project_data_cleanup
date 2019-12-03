@@ -1,0 +1,127 @@
+---
+title: "Urban"
+author: "Diego Arias"
+date: "12/2/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(googlesheets4)
+library(janitor)
+library(stats)
+library(fs)
+library(readxl)
+library(infer)
+library(pracma)
+library(tidyverse)
+library(googlesheets4)
+library(janitor)
+library(stats)
+library(fs)
+library(readxl)
+library(infer)
+library(pracma)
+library(reshape2)
+library(moderndive)
+library(gt)
+library(ggplot2)
+```
+
+```{r}
+m <- read_csv("m.csv")
+```
+
+```{r}
+ggplot(m, aes(x = urban_r)) +
+  geom_bar(aes(y = (..count..)/sum(..count..))) +
+  labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
+  scale_y_continuous(labels = scales::percent)
+```
+
+
+
+```{r}
+m_random_urban<-
+    
+  tibble(replicate = 1:10000) %>%
+  
+  mutate(urban_r = sample(c("Urban","Rural"), size=10000, replace = TRUE, prob=c(0.9,0.1)))%>%
+  
+  mutate(urban_p1 = sample(c("Urban","Rural"), size=10000, replace = TRUE, prob=c(0.9,0.1)))%>%
+  
+  mutate(urban_p2 = sample(c("Urban","Rural"), size=10000, replace = TRUE, prob=c(0.9,0.1)))%>%
+  
+  mutate(urban_p3 = sample(c("Urban","Rural"), size=10000, replace = TRUE, prob=c(0.9,0.1)))%>%
+  
+  mutate(urban_p4 = sample(c("Urban","Rural"), size=10000, replace = TRUE, prob=c(0.9,0.1)))%>%
+  
+  mutate(n_same_urban = NA)
+
+# We repeat the same for loop as we did in the beginning with our collected data, but with the sample we generated with the for loop above:
+
+for (i in 1:10000) {
+
+respondent_urban<-m_random_urban$urban_r[i]
+
+count=0
+
+if(respondent_urban==m_random_urban$urban_p1[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_urban==m_random_urban$urban_p2[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_urban==m_random_urban$urban_p3[i])
+{count<-count+1}else{
+count<-count}
+
+if(respondent_urban==m_random_urban$urban_p4[i])
+{count<-count+1}else{
+count<-count}
+
+m_random_urban$n_same_urban[i]<-count}
+```
+
+```{r}
+
+
+rural_replications <- m_random_urban %>%
+   filter(urban_r=="Rural")%>%
+  select(n_same_urban)%>%
+  rep_sample_n(size = 13, replace = TRUE, reps = 10000) %>% 
+  group_by(replicate) %>% 
+  summarize(mean_same_urban = mean(n_same_urban))
+
+mean_observed_rural <- as.numeric(m%>%
+  filter(urban_r=="Rural")%>%
+  summarize(mean=mean(n_same_urban)))
+
+rural_permutation_plot<- rural_replications %>%
+  ggplot(aes(x=mean_same_urban))+
+  geom_density()+
+  geom_vline(xintercept=mean_observed_rural, color = "blue") + 
+  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+```
+
+```{r}
+urban_replications <- m_random_urban %>%
+   filter(urban_r=="Urban")%>%
+  select(n_same_urban)%>%
+  rep_sample_n(size = 54, replace = TRUE, reps = 10000) %>% 
+  group_by(replicate) %>% 
+  summarize(mean_same_urban = mean(n_same_urban))
+
+mean_observed_urban <- as.numeric(m%>%
+  filter(urban_r=="Urban")%>%
+  summarize(mean=mean(n_same_urban)))
+
+urban_permutation_plot<- urban_replications %>%
+  ggplot(aes(x=mean_same_urban))+
+  geom_density()+
+  geom_vline(xintercept=mean_observed_urban, color = "blue") + 
+  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")

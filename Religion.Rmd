@@ -5,12 +5,26 @@ date: "11/29/2019"
 output: html_document
 ---
 
-m %>%
-group_by(religion_r) %>%
-count()
+```{r restup, include = FALSE, warning = FALSE, echo = FALSE}
+library(tidyverse)
+library(googlesheets4)
+library(janitor)
+library(stats)
+library(fs)
+library(readxl)
+library(infer)
+library(pracma)
+```
+
+```{r}
+m <- read_csv("m.csv")
+```
+
 
 ```{r, religion permutation test}
 # We ran a permutation below to compare to the data collected above. This permutation is based on the overall religion makeup of Harvard-- NOT the religion makeup of just friend groups. We will create a random sample with the proportions reported by Harvard and compare the outcome to the racial makeup of friend groups to see if there is self-segregation:
+
+
 
 m_random_religion<-
     
@@ -73,8 +87,10 @@ christian_permutation_plot<-christian_replications %>%
   geom_vline(xintercept=mean_observed_christian, color = "blue") + 
   labs(title = "Distribution of Mean same religion values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same religion Friends per Replication")
 
+ christian_permutation_plot
 
-write_rds(christian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_christian.rds")
+
+#write_rds(christian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_christian.rds")
              
 christian_replications %>%
   filter(mean_same_religion >= mean_observed_christian) %>%
@@ -104,7 +120,7 @@ agnostic_or_atheist_permutation_plot<-agnostic_or_atheist_replications %>%
   labs(title = "Distribution of Mean same religion values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same religion Friends per Replication")
 
 
-write_rds(agnostic_or_atheist_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_agnostic_or_atheist.rds")
+#write_rds(agnostic_or_atheist_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_agnostic_or_atheist.rds")
              
 agnostic_or_atheist_replications %>%
   filter(mean_same_religion >= mean_observed_agnostic_or_atheist) %>%
@@ -113,33 +129,33 @@ agnostic_or_atheist_replications %>%
 ```
 
 ```{r}
-muslim_replications <- m_random_religion %>%
-  filter(religion_r=="Muslim")%>%
-  select(n_same_religion)%>%
-  rep_sample_n(size = 1, replace = TRUE, reps = 10000) %>% 
-  group_by(replicate) %>% 
-  summarize(mean_same_religion = mean(n_same_religion))
+#muslim_replications <- m_random_religion %>%
+ # filter(religion_r=="Muslim")%>%
+ # select(n_same_religion)%>%
+ # rep_sample_n(size = 1, replace = TRUE, reps = 10000) %>% 
+ # group_by(replicate) %>% 
+  #summarize(mean_same_religion = mean(n_same_religion))
 
 mean_observed_muslim <- as.numeric(m%>%
   filter(religion_r=="Muslim")%>%
   summarize(mean=mean(n_same_religion)))
 
-muslim_permutation_plot<-muslim_replications %>%
-  ggplot(aes(x=mean_same_religion))+
-  geom_density()+
-  geom_vline(xintercept=mean_observed_muslim, color = "blue") + 
-  labs(title = "Distribution of Mean same religion values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same religion Friends per Replication")
+#muslim_permutation_plot<-muslim_replications %>%
+ # ggplot(aes(x=mean_same_religion))+
+ # geom_density()+
+ # geom_vline(xintercept=mean_observed_muslim, color = "blue") + 
+ # labs(title = "Distribution of Mean same religion values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same religion Friends per Replication")
 
 
-write_rds(muslim_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_muslim.rds")
+#write_rds(muslim_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_muslim.rds")
              
-muslim_replications %>%
-  filter(mean_same_religion >= mean_observed_muslim) %>%
-  nrow() / 10000
+#muslim_replications %>%
+ # filter(mean_same_religion >= mean_observed_muslim) %>%
+ # nrow() / 10000
 
-m %>%
-  filter(religion_r == "Muslim") %>%
-  nrow()
+#m %>%
+  #filter(religion_r == "Muslim") %>%
+ # nrow()
 ```
 
 

@@ -5,3 +5,93 @@ date: "11/29/2019"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(googlesheets4)
+library(janitor)
+library(stats)
+library(fs)
+library(readxl)
+library(infer)
+library(pracma)
+library(reshape2)
+library(moderndive)
+library(gt)
+library(ggplot2)
+```
+
+```{r}
+m <- read_csv("m.csv")
+```
+
+
+```{r}
+
+
+political_data<- 
+  m%>%
+  mutate(political_r_numeric = case_when(
+  political_r == "Very conservative"  ~ 0,
+  political_r == "Conservative"  ~ 1,
+  political_r == "Moderate"  ~ 2,
+  political_r == "Liberal" ~ 3,
+  political_r == "Very liberal" ~ 4))%>%
+  mutate(political_p1_numeric = case_when(
+  political_p1 == "very conservative"  ~ 0,
+  political_p1 == "conservative"  ~ 1,
+  political_p1 == "moderate"  ~ 2,
+  political_p1 == "liberal" ~ 3,
+  political_p1 == "very liberal" ~ 4))%>%
+  mutate(political_p2_numeric = case_when(
+  political_p2 == "very conservative"  ~ 0,
+  political_p2 == "conservative"  ~ 1,
+  political_p2 == "moderate"  ~ 2,
+  political_p2 == "liberal" ~ 3,
+  political_p2 == "very liberal" ~ 4))%>%
+  mutate(political_p3_numeric = case_when(
+  political_p3 == "very conservative"  ~ 0,
+  political_p3 == "conservative"  ~ 1,
+  political_p3 == "moderate"  ~ 2,
+  political_p3 == "liberal" ~ 3,
+  political_p3 == "very liberal" ~ 4))%>%
+  mutate(political_p4_numeric = case_when(
+  political_p4 == "very conservative"  ~ 0,
+  political_p4 == "conservative"  ~ 1,
+  political_p4 == "moderate"  ~ 2,
+  political_p4 == "liberal" ~ 3,
+  political_p4 == "very liberal" ~ 4))%>%
+  mutate(avg_distance=(political_p1_numeric+political_p2_numeric+political_p3_numeric+political_p4_numeric)/4)%>%
+  drop_na(avg_distance, political_r_numeric)%>%
+  select(political_r, political_r_numeric, political_p1_numeric, political_p2_numeric, political_p3_numeric, political_p4_numeric, avg_distance)
+
+ggplot(political_data, aes(x=political_r_numeric,y=avg_distance))+
+  geom_jitter() +
+  stat_smooth (method="lm")
+
+political_lm_model<-
+  lm(avg_distance ~ political_r_numeric, data = political_data)
+
+get_regression_table(political_lm_model)%>%
+  mutate(Term= c("Intercept","Coefficient"))%>%
+  mutate("Estimate"=`estimate`, "2.5th Percentile"=`lower_ci`, "97.5th Percentile"=`upper_ci`, "Results"=`Term`)%>%
+  select(`Results`, `Estimate`, `2.5th Percentile`, `97.5th Percentile`)%>%
+  gt()%>%
+  tab_header(title="Regression Table for Relationship between Own and Friends' Political Opinions", subtitle = "0 = Very Conservative, 4 = Very Liberal")
+  
+```
+
+
+ 
+```{r}
+
+
+ggplot(political_data, aes(x = political_r_numeric, fill = political_r_numeric))+ 
+  geom_bar(aes(y = (..count..)/sum(..count..))) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title="Distribution of Data Points", subtitle="0 = Very Conservative, 4 = Very Liberal", x="Different Values", y= "Percentage") 
+ 
+
+
+```
+
