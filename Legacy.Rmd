@@ -22,7 +22,10 @@ library(ggplot2)
 ```
 
 ```{r}
-m <- read_csv("m.csv")
+m <- read_csv("m.csv")%>%
+  drop_na()
+
+
 ```
 
 
@@ -104,7 +107,7 @@ m_random_legacy$n_same_legacy[i]<-count}
 legacy_yes_replications <- m_random_legacy %>%
    filter(legacy_r=="Legacy")%>%
   select(n_same_legacy)%>%
-  rep_sample_n(size = 8, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 12, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_legacy = mean(n_same_legacy))
 
@@ -126,7 +129,7 @@ legacy_yes_permutation_plot
 legacy_no_replications <- m_random_legacy %>%
    filter(legacy_r=="Not legacy")%>%
   select(n_same_legacy)%>%
-  rep_sample_n(size = 58, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 92, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_legacy = mean(n_same_legacy))
 

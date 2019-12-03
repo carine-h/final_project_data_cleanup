@@ -17,7 +17,8 @@ library(pracma)
 ```
 
 ```{r}
-m <- read_csv("m.csv")
+m <- read_csv("m.csv")%>%
+  drop_na()
 ```
 
 
@@ -29,10 +30,12 @@ data_plot_religion<- ggplot(m, aes(x = religion_r,fill=religion_r)) +
   theme(legend.position = "none")
 
 data_plot_religion
+
 ```
 
+```{r}
 religion_violin <- m %>%
-  filter(religion_p1 %in% c("Christian","Atheist or Agnostic","Jewish"))%>%
+  filter(religion_p1 %in% c("Christian","Agnostic or Atheist","Jewish"))%>%
   ggplot(aes(x=concentration_r, y = n_same_concentration, color = concentration_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
@@ -43,6 +46,7 @@ religion_violin <- m %>%
 
 religion_violin
 ```
+
 
 
 ```{r, religion permutation test}
@@ -93,11 +97,12 @@ count<-count}
 m_random_religion$n_same_religion[i]<-count}
 ```
 
+
 ```{r}
 christian_replications <- m_random_religion%>%
   filter(religion_r=="Christian")%>%
   select(n_same_religion)%>%
-  rep_sample_n(size = 38, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 58, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_religion = mean(n_same_religion))
 
@@ -123,7 +128,7 @@ christian_permutation_plot<-christian_replications %>%
 agnostic_or_atheist_replications <- m_random_religion%>%
   filter(religion_r=="Agnostic or Atheist")%>%
   select(n_same_religion)%>%
-  rep_sample_n(size = 19, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 33, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_religion = mean(n_same_religion))
 

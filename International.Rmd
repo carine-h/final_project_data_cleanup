@@ -22,7 +22,9 @@ library(ggplot2)
 ```
 
 ```{r}
-m <- read_csv("m.csv")
+m <- read_csv("m.csv")%>%
+  drop_na()
+
 ```
 
 
@@ -100,7 +102,7 @@ m_random_international$n_same_international[i]<-count}
 international_yes_replications <- m_random_international %>%
    filter(international_r=="Yes")%>%
   select(n_same_international)%>%
-  rep_sample_n(size = 10, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 12, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_international = mean(n_same_international))
 
@@ -122,7 +124,7 @@ international_yes_permutation_plot
 international_no_replications <- m_random_international %>%
    filter(international_r=="No")%>%
   select(n_same_international)%>%
-  rep_sample_n(size = 57, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 92, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_international = mean(n_same_international))
 

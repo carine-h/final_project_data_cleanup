@@ -22,7 +22,9 @@ library(ggplot2)
 ```
 
 ```{r}
-m <- read_csv("m.csv")
+m <- read_csv("m.csv")%>%
+  drop_na()
+
 ```
 
 
@@ -101,7 +103,7 @@ m_random_athlete$n_same_athlete[i]<-count}
 athlete_yes_replications <- m_random_athlete %>%
    filter(athlete_r=="Yes")%>%
   select(n_same_athlete)%>%
-  rep_sample_n(size = 12, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 18, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_athlete = mean(n_same_athlete))
 
@@ -123,7 +125,7 @@ athlete_yes_permutation_plot
 athlete_no_replications <- m_random_athlete %>%
    filter(athlete_r=="No")%>%
   select(n_same_athlete)%>%
-  rep_sample_n(size = 55, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 86, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_athlete = mean(n_same_athlete))
 

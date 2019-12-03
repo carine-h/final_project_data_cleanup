@@ -22,7 +22,9 @@ library(ggplot2)
 ```
 
 ```{r}
-m <- read_csv("m.csv")
+m <- read_csv("m.csv")%>%
+  drop_na()
+
 ```
 
 
@@ -101,7 +103,7 @@ m_random_firstgen$n_same_firstgen[i]<-count}
 firstgen_yes_replications <- m_random_firstgen %>%
    filter(firstgen_r=="Yes")%>%
   select(n_same_firstgen)%>%
-  rep_sample_n(size = 20, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 31, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_firstgen = mean(n_same_firstgen))
 
@@ -123,7 +125,7 @@ firstgen_yes_permutation_plot
 firstgen_no_replications <- m_random_firstgen %>%
    filter(firstgen_r=="No")%>%
   select(n_same_firstgen)%>%
-  rep_sample_n(size = 47, replace = TRUE, reps = 10000) %>% 
+  rep_sample_n(size = 73, replace = TRUE, reps = 10000) %>% 
   group_by(replicate) %>% 
   summarize(mean_same_firstgen = mean(n_same_firstgen))
 
