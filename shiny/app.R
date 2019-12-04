@@ -73,6 +73,11 @@ athlete_no_permutation <- read_rds("./athlete/athlete_no_permutation.rds")
 violin_athlete <- read_rds("./athlete/violin_athlete.rds")
 barplot_athlete <- read_rds("./athlete/barplot_athlete.rds")
 
+#Import data for politics tab
+data_plot_political <- read_rds("./politics/data_plot_political.rds")
+linear_plot_political <- read_rds("./politics/linear_plot_political.rds")
+regression_table_political <- read_rds("./politics/regression_table_political.rds")
+
 # Define UI for application 
 
 
@@ -474,7 +479,51 @@ ui <- navbarPage(
        
        plotOutput("urban_permutation_plot")
        
-     )))    
+     ))), 
+ 
+ # The "Politics" tab will provide all analysis related to the political variable
+ 
+ tabPanel(
+   
+   title = "Politics",
+   
+   h3("What did the political maekup of our sample look like?"),
+   fluidRow(
+     column(12,
+            mainPanel(
+              plotOutput("data_plot_political")
+            ))),
+   
+   br(),
+   
+   h3("Let's look at a regression of political views"),
+   
+   fluidRow(
+     column(12,
+            mainPanel(
+              plotOutput("regression_table_political")
+            ))),
+   
+   br(),
+   
+   sidebarLayout(
+     
+     sidebarPanel(
+       
+       radioButtons(inputId = "urban_permutation", 
+                    
+                    label = "Urban", 
+                    
+                    choices = c("Urban", "Rural"
+                                
+                    ))),
+     
+     mainPanel(
+       
+       plotOutput("urban_permutation_plot")
+       
+     )))
+ 
 )
             
   
@@ -819,7 +868,43 @@ server <- function(input, output) {
             }              
           })
     
-    
+
+          
+          
+          #Content of Politics Tab
+          
+          output$violin_urban <- renderPlot({
+            
+            violin_urban
+            
+          })  
+          
+          output$barplot_urban<- renderPlot({
+            
+            barplot_urban    
+            
+          })
+          
+          
+          output$urban_permutation_plot <- renderPlot({
+            
+            if(input$urban_permutation == "Urban"){
+              
+              urban_permutation
+              
+            }
+            
+            
+            
+            else if(input$urban_permutation == "Rural"){
+              
+              rural_permutation
+              
+            }              
+          })  
+          
+          
+          
 }
 
 

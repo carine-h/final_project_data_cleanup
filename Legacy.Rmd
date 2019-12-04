@@ -147,5 +147,5 @@ legacy_no_permutation_plot<- legacy_no_replications %>%
 
 legacy_no_permutation_plot
 
-# write_rds(legacy_no_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/legacy/legacy_no_permutation.rds")
+write_rds(legacy_no_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/legacy/legacy_no_permutation.rds")
 ```
