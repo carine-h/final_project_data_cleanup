@@ -32,13 +32,13 @@ m <- read_csv("m.csv") %>%
 data_plot_concentration<- ggplot(m, aes(x = concentration_r,fill=concentration_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage") +
-  scale_y_continuous(labels = scales::percent) +
-  theme(legend.position = "none")
+  scale_y_continuous(labels = scales::percent)+
+  theme(axis.text.x = element_blank())
 
 data_plot_concentration
 
 
-write_rds(data_plot_concentration, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/barplot_concentration.rds")
+write_rds(data_plot_concentration, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/barplot_concentration.rds")
 
 ```
 
@@ -54,9 +54,9 @@ concentration_violin <- m %>%
   labs(title = "Distribution of Same Concentration Friends per Respondent Concentration", y = "Number of Same Concentration Friends") +
   theme(legend.position = "none")
 
+concentration_violin
 
-
-write_rds(concentration_violin, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/violin_concentration.rds")
+write_rds(concentration_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/violin_concentration.rds")
 ```
 
 
@@ -119,13 +119,14 @@ mean_observed_stem <- as.numeric(m%>%
 
 stem_permutation_plot<- stem_replications %>%
   ggplot(aes(x=mean_same_concentration))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+  labs(title = "Distribution of Mean Number of Friends Studying STEM per Respondent Studying STEM Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Academic Status` Friends (STEM) per Replication", y = "Density")+
+  theme(legend.position = "none")
 
 stem_permutation_plot
 
-write_rds(stem_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/stem_permutation.rds")
+write_rds(stem_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/stem_permutation.rds")
 ```
 
 
@@ -143,13 +144,13 @@ mean_observed_humanities <- as.numeric(m%>%
 
 humanities_permutation_plot<- humanities_replications %>%
   ggplot(aes(x=mean_same_concentration))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is   bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+ labs(title = "Distribution of Mean Number of Friends Studying Humanities per Respondent Studying Humanities Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Academic Status` Friends (Humanities) per Replication", y = "Density")
 
 humanities_permutation_plot
 
-write_rds(humanities_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/humanities_permutation.rds")
+write_rds(humanities_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/humanities_permutation.rds")
 ```
 
 
@@ -167,11 +168,12 @@ mean_observed_social_sciences <- as.numeric(m%>%
 
 social_sciences_permutation_plot<- social_sciences_replications %>%
   ggplot(aes(x=mean_same_concentration))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+labs(title = "Distribution of Mean Number of Friends Studying Social Science per Respondent Studying Social Science Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Academic Status` Friends (Social Science) per Replication", y = "Density")+
+  theme(legend.position = "none")
 
 social_sciences_permutation_plot
 
-write_rds(social_sciences_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/concentration/social_sciences_permutation.rds")
+write_rds(social_sciences_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/social_sciences_permutation.rds")
 ```

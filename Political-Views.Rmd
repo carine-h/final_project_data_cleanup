@@ -91,11 +91,11 @@ regression_table_political
 ```{r}
 
 
-data_plot_political <- ggplot(political_data, aes(x = political_r_numeric, fill = political_r_numeric))+ 
-  geom_bar(aes(y = (..count..)/sum(..count..))) +
+data_plot_political <- ggplot(political_data, aes(x = political_r_numeric, fill = "seagreen1"))+ 
+  geom_bar(aes(y = (..count..)/sum(..count..), fill = "seagreen1"))+
   scale_y_continuous(labels = scales::percent) +
-  labs(title="Distribution of Data Points", subtitle="0 = Very Conservative, 4 = Very Liberal", x="Different Values", y= "Percentage") 
-
+  labs(title="Distribution of Data Points", subtitle="0 = Very Conservative, 4 = Very Liberal", x="Different Values", y= "Percentage")+
+  theme(legend.position = "none")
  
 data_plot_political
 

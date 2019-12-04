@@ -30,14 +30,15 @@ m <- read_csv("m.csv")%>%
 
 ```{r}
 
-data_plot_firstgen<- ggplot(m, aes(x = firstgen_r)) +
+data_plot_firstgen<- ggplot(m, aes(x = firstgen_r, fill = firstgen_r))+
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  theme(legend.position = "none")
 
 data_plot_firstgen
 
-write_rds(data_plot_firstgen, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/barplot_firstgen.rds")
+write_rds(data_plot_firstgen, "~/Desktop/R studio/final_project_data_cleanup/shiny/firstgen/barplot_firstgen.rds")
 ```
 
 
@@ -48,12 +49,12 @@ firstgen_violin <- m %>%
   stat_summary(fun.y = mean, geom = "point") +
   geom_jitter(shape = 16, color = "black", size = .5) + 
   theme(axis.text.x = element_text(angle = 90)) +
-  labs(title = "Distribution of Same Race Friends per Respondent Firstgen", y = "Number of Same Firstgen Friends") +
+  labs(title = "Distribution of Same Race Friends per Respondent First-Gen", y = "Number of Same First-Gen Friends", x = "Respondent: First-Gen?") +
   theme(legend.position = "none")
 
 firstgen_violin
 
-write_rds(firstgen_violin, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/violin_firstgen.rds")
+# write_rds(firstgen_violin, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/violin_firstgen.rds")
 ```
 
 
@@ -117,13 +118,14 @@ mean_observed_firstgen_yes <- as.numeric(m%>%
 
 firstgen_yes_permutation_plot<- firstgen_yes_replications %>%
   ggplot(aes(x=mean_same_firstgen))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_firstgen_yes, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+ labs(title = "Distribution of Mean Number of First-Gen Friends per First-Gen Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (First-Gen per Replication",y = "Density")+
+  theme(legend.position = "none")
 
 firstgen_yes_permutation_plot
 
-write_rds(firstgen_yes_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/firstgen_yes_permutation.rds")
+write_rds(firstgen_yes_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/firstgen/firstgen_yes_permutation.rds")
 ```
 
 
@@ -141,11 +143,12 @@ mean_observed_firstgen_no <- as.numeric(m%>%
 
 firstgen_no_permutation_plot<- firstgen_no_replications %>%
   ggplot(aes(x=mean_same_firstgen))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_firstgen_no, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Firstgen Friends per Replication")
+ labs(title = "Distribution of Mean Number of Non-First-Gen Friends per Non-First-Gen Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (Non-First-Genl) per Replication",y = "Density")+
+  theme(legend.position = "none")
 
 firstgen_no_permutation_plot
 
-write_rds(firstgen_no_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/firstgen/firstgen_no_permutation.rds")
+write_rds(firstgen_no_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/firstgen/firstgen_no_permutation.rds")
 ```

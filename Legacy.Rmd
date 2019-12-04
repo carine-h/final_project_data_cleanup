@@ -29,14 +29,15 @@ m <- read_csv("m.csv")%>%
 
 
 ```{r}
-data_plot_legacy<- ggplot(m, aes(x = legacy_r)) +
+data_plot_legacy<- ggplot(m, aes(x = legacy_r, fill = legacy_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  theme(legend.position = "none")
 
 data_plot_legacy
 
-write_rds(data_plot_legacy, "~/Desktop/GOV_1005/Final_Project/shiny/legacy/barplot_legacy.rds")
+write_rds(data_plot_legacy, "~/Desktop/R studio/final_project_data_cleanup/shiny/legacy/barplot_legacy.rds")
 ```
 
 
@@ -46,13 +47,12 @@ legacy_violin <- m %>%
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
   geom_jitter(shape = 16, color = "black", size = .5) + 
-  theme(axis.text.x = element_text(angle = 90)) +
-  labs(title = "Distribution of Same Race Friends per Respondent Legacyt", y = "Number of Same Legacy Friends") +
+  labs(title = "Distribution of Legacy Friends per Respondent", y = "Number of Same Legacy Friends", x = "Respondent") +
   theme(legend.position = "none")
 
 legacy_violin
 
-write_rds(legacy_violin, "~/Desktop/GOV_1005/Final_Project/shiny/legacy/violin_legacy.rds")
+write_rds(legacy_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/legacy/violin_legacy.rds")
 ```
 
 
@@ -116,13 +116,14 @@ mean_observed_legacy_yes <- as.numeric(m%>%
 
 legacy_yes_permutation_plot<- legacy_yes_replications %>%
   ggplot(aes(x=mean_same_legacy))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_legacy_yes, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Legacy Friends per Replication")
+ labs(title = "Distribution of Mean Number of `Legacy` Friends per `Legacy` Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Legacy Status Friends (`Legacy`) per Replication",y = "Density")
+
 
 legacy_yes_permutation_plot
 
-write_rds(legacy_yes_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/legacy/legacy_yes_permutation.rds")
+write_rds(legacy_yes_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/legacy/legacy_yes_permutation.rds")
 ```
 
 
@@ -140,11 +141,11 @@ mean_observed_legacy_no <- as.numeric(m%>%
 
 legacy_no_permutation_plot<- legacy_no_replications %>%
   ggplot(aes(x=mean_same_legacy))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_legacy_no, color = "blue") + 
-  labs(title = "Distribution of Mean same legacy values under null hypothesis", subtitle = "Our observed value, shown in blue, is not significantly different from what we would expect under random friend assignment", x = "Mean Number of Same Legacy Friends per Replication")
+  labs(title = "Distribution of Mean Number of `Non-Legacy` Friends per `Non-Legacy` Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Legacy Status Friends (`Non-Legacy`) per Replication",y = "Density")
 
 legacy_no_permutation_plot
 
-write_rds(legacy_no_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/legacy/legacy_no_permutation.rds")
+# write_rds(legacy_no_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/legacy/legacy_no_permutation.rds")
 ```

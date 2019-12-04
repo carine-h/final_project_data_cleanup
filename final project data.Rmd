@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 library(tidyverse)
+library(ggthemes)
 library(googlesheets4)
 library(janitor)
 library(stats)
@@ -444,7 +445,11 @@ m %>%
   ggplot(aes(x=religion_r, y = n_same_religion, color =religion_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
-  geom_jitter(shape = 16, color = "black", size = .5)
+  geom_jitter(shape = 16, color = "black", size = .5)+
+  labs(title = "Religious Distribution of Friend Groups", 
+       subtitle = "Number of friends with the same religion as the respondent", 
+       x = "Religion", 
+       y= "Number with the Same Religion")
 
 
 ```

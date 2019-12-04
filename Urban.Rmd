@@ -34,14 +34,15 @@ m <- read_csv("m.csv")
 ```
 
 ```{r}
-data_plot_urban <- ggplot(m, aes(x = urban_r)) +
+data_plot_urban <- ggplot(m, aes(x = urban_r, fill = urban_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  theme(legend.position = "none")
 
 data_plot_urban
 
-write_rds(data_plot_urban, "~/Desktop/GOV_1005/Final_Project/shiny/urban/barplot_urban.rds")
+write_rds(data_plot_urban, "~/Desktop/R studio/final_project_data_cleanup/shiny/urban/barplot_urban.rds")
 ```
 
 ```{r}
@@ -50,14 +51,13 @@ urban_violin <- m %>%
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
   geom_jitter(shape = 16, color = "black", size = .5) + 
-  theme(axis.text.x = element_text(angle = 90)) +
-  labs(title = "Distribution of Same Urbanisation Friends per Respondent International", y = "Number of Same International Friends") +
+  labs(title = "Distribution of Friends' Geographic Location per Respondents' Geographic Location", y = "Number of Friends with Same Geographic Origins", x = "Type of Geographic Origin of Respondent") +
   theme(legend.position = "none")
 
 urban_violin
 
 
-write_rds(urban_violin, "~/Desktop/GOV_1005/Final_Project/shiny/urban/violin_urban.rds")
+write_rds(urban_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/urban/violin_urban.rds")
 ```
 
 
@@ -106,8 +106,6 @@ m_random_urban$n_same_urban[i]<-count}
 ```
 
 ```{r}
-
-
 rural_replications <- m_random_urban %>%
    filter(urban_r=="Rural")%>%
   select(n_same_urban)%>%
@@ -121,13 +119,13 @@ mean_observed_rural <- as.numeric(m%>%
 
 rural_permutation_plot<- rural_replications %>%
   ggplot(aes(x=mean_same_urban))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_rural, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+  labs(title = "Distribution of Mean Number of Friends with Rural Origins with a Respondent with Rural Origins", subtitle = "The distribution of the number of friends with the same geographical origins as the respondent", x = "Mean Number of Friend with Same Rural Origin per Rural Respondent per Replication", y = "Density")
 
 rural_permutation_plot
 
-write_rds(rural_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/urban/rural_permutation.rds")
+write_rds(rural_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/urban/rural_permutation.rds")
 ```
 
 
@@ -145,11 +143,11 @@ mean_observed_urban <- as.numeric(m%>%
 
 urban_permutation_plot<- urban_replications %>%
   ggplot(aes(x=mean_same_urban))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_urban, color = "blue") + 
-  labs(title = "Distribution of Mean same concentration values under null hypothesis", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Same Concentration Friends per Replication")
+  labs(title = "Distribution of Mean Number of Friends with Urban Origins with a Respondent with Urban Origins", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Friend with Same Urban Origin per Urban Respondent per Replication", y = "Density")
 
 urban_permutation_plot
 
-write_rds(urban_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/urban/urban_permutation.rds")
+write_rds(urban_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/urban/urban_permutation.rds")
 ```

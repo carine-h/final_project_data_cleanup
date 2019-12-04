@@ -25,14 +25,14 @@ m <- read_csv("m.csv") %>%
 ```{r, visualizing data points for race}
 data_plot_race<- ggplot(m, aes(x = race_r,fill=race_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
-  labs(title="Distribution of Data Points", x="Different Values", y= "Percentage") +
+  labs(title="Distribution of Data Points", x="Respondent Race", y= "Percentage") +
   scale_y_continuous(labels = scales::percent) +
-  theme(legend.position = "none")
+theme(axis.text.x = element_blank())
 
 data_plot_race
 
 
-write_rds(data_plot_race, "~/Desktop/GOV_1005/Final_Project/shiny/race/barplot_race.rds")
+write_rds(data_plot_race, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/barplot_race.rds")
 
 
 ```
@@ -45,14 +45,13 @@ race_violin <- m %>%
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
   geom_jitter(shape = 16, color = "black", size = .5) + 
-  theme(axis.text.x = element_text(angle = 90)) +
-  labs(title = "Distribution of Same Race Friends per Respondent race", y = "Number of Same Race Friends") +
-  theme(legend.position = "none")
+  labs(title = "Distribution of Same Race Friends per Respondent race", x="Respondent Race", y = "Number of Same Race Friends")+
+  theme(axis.text.x = element_blank())
 
 race_violin
 
 
-write_rds(race_violin, "~/Desktop/GOV_1005/Final_Project/shiny/race/violin_race.rds")
+write_rds(race_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/violin_race.rds")
 ```
 
 
@@ -122,12 +121,13 @@ mean_observed_white <- as.numeric(m%>%
 
 white_permutation_plot<- white_replications %>%
   ggplot(aes(x=mean_same_race))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_white, color = "blue") + 
-  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
+ labs(title = "Distribution of Mean Number of White Friends per White Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Race Friends (White) per Replication",y = "Density")
+white_permutation_plot
 
 
-write_rds(white_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/race/white_permutation.rds")
+write_rds(white_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/white_permutation.rds")
 ```
 
 ```{r Asian permutation}
@@ -146,15 +146,15 @@ mean_observed_asian <- as.numeric(m%>%
 
 asian_permutation_plot<-asian_replications %>%
   ggplot(aes(x=mean_same_race))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_asian, color = "blue") + 
-  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
+  labs(title = "Distribution of Mean Number of Asian Friends per Asian Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Race Friends (Asian) per Replication",y = "Density")
 
 asian_permutation_plot
 
-#write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_asian.rds")
 
-write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/race/asian_permutation.rds")
+
+#write_rds(asian_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/asian_permutation.rds")
 
 ```
 
@@ -174,15 +174,14 @@ mean_observed_black <- as.numeric(m%>%
 
 black_permutation_plot <- black_replications %>%
   ggplot(aes(x=mean_same_race))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_black, color = "blue") + 
-  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
+labs(title = "Distribution of Mean Number of Black/African American Friends per Black/African American Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Race Friends (Black/African American) per Replication",y = "Density")
 
-#write_rds(black_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_black.rds")
 
 black_permutation_plot
 
-write_rds(black_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/race/black_permutation.rds")
+write_rds(black_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/black_permutation.rds")
 
 ```
 
@@ -202,14 +201,14 @@ mean_observed_hispanic <- as.numeric(m%>%
 
 hispanic_permutation_plot <- hispanic_replications %>%
   ggplot(aes(x=mean_same_race))+
-  geom_density()+
+  geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_hispanic, color = "blue") + 
-  labs(title = "Distribution of Mean same race values under null hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of Same Race Friends per Replication")
+labs(title = "Distribution of Mean Number of Hispanic/Latino Friends per Hispanic/Latino Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of Same Race (Hispanic/Latino) Friends per Replication",y = "Density")
 
-#write_rds(hispanic_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/p_hispanic.rds")
+
 
 hispanic_permutation_plot 
 
-write_rds(hispanic_permutation_plot, "~/Desktop/GOV_1005/Final_Project/shiny/race/hispanic_permutation.rds")
+write_rds(hispanic_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/hispanic_permutation.rds")
 
 ```
