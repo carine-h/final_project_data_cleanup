@@ -38,7 +38,7 @@ data_plot_concentration<- ggplot(m, aes(x = concentration_r,fill=concentration_r
 data_plot_concentration
 
 
-write_rds(data_plot_concentration, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/barplot_concentration.rds")
+write_rds(data_plot_concentration, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/concentration/barplot_concentration.rds")
 
 ```
 
@@ -56,7 +56,7 @@ concentration_violin <- m %>%
 
 concentration_violin
 
-write_rds(concentration_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/violin_concentration.rds")
+write_rds(concentration_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/concentration/violin_concentration.rds")
 ```
 
 
@@ -126,7 +126,7 @@ stem_permutation_plot<- stem_replications %>%
 
 stem_permutation_plot
 
-write_rds(stem_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/stem_permutation.rds")
+write_rds(stem_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/concentration/stem_permutation.rds")
 ```
 
 
@@ -150,7 +150,7 @@ humanities_permutation_plot<- humanities_replications %>%
 
 humanities_permutation_plot
 
-write_rds(humanities_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/humanities_permutation.rds")
+write_rds(humanities_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/concentration/humanities_permutation.rds")
 ```
 
 
@@ -175,5 +175,5 @@ labs(title = "Distribution of Mean Number of Friends Studying Social Science per
 
 social_sciences_permutation_plot
 
-write_rds(social_sciences_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/concentration/social_sciences_permutation.rds")
+write_rds(social_sciences_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/concentration/social_sciences_permutation.rds")
 ```

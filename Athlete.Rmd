@@ -38,7 +38,7 @@ data_plot_athlete<- ggplot(m, aes(x = athlete_r, fill = athlete_r)) +
 
 data_plot_athlete
 
-write_rds(data_plot_athlete, "~/Desktop/R studio/final_project_data_cleanup/shiny/athlete/barplot_athlete.rds")
+write_rds(data_plot_athlete, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/athlete/barplot_athlete.rds")
 ```
 
 
@@ -55,7 +55,7 @@ athlete_violin <- m %>%
 
 athlete_violin
 
-write_rds(athlete_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/athlete/violin_athlete.rds")
+write_rds(athlete_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/athlete/violin_athlete.rds")
 ```
 
 
@@ -125,7 +125,7 @@ athlete_yes_permutation_plot<- athlete_yes_replications %>%
 
 athlete_yes_permutation_plot
 
-write_rds(athlete_yes_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/athlete/athlete_yes_permutation.rds")
+write_rds(athlete_yes_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/athlete/athlete_yes_permutation.rds")
 ```
 
 
@@ -149,5 +149,5 @@ athlete_no_permutation_plot<- athlete_no_replications %>%
 
 athlete_no_permutation_plot
 
-write_rds(athlete_no_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/athlete/athlete_no_permutation.rds")
+write_rds(athlete_no_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/athlete/athlete_no_permutation.rds")
 ```

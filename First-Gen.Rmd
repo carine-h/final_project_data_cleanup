@@ -38,7 +38,7 @@ data_plot_firstgen<- ggplot(m, aes(x = firstgen_r, fill = firstgen_r))+
 
 data_plot_firstgen
 
-write_rds(data_plot_firstgen, "~/Desktop/R studio/final_project_data_cleanup/shiny/firstgen/barplot_firstgen.rds")
+write_rds(data_plot_firstgen, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/firstgen/barplot_firstgen.rds")
 ```
 
 
@@ -125,7 +125,7 @@ firstgen_yes_permutation_plot<- firstgen_yes_replications %>%
 
 firstgen_yes_permutation_plot
 
-write_rds(firstgen_yes_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/firstgen/firstgen_yes_permutation.rds")
+write_rds(firstgen_yes_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/firstgen/firstgen_yes_permutation.rds")
 ```
 
 
@@ -150,5 +150,5 @@ firstgen_no_permutation_plot<- firstgen_no_replications %>%
 
 firstgen_no_permutation_plot
 
-write_rds(firstgen_no_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/firstgen/firstgen_no_permutation.rds")
+write_rds(firstgen_no_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/firstgen/firstgen_no_permutation.rds")
 ```

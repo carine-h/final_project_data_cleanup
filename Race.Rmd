@@ -32,7 +32,7 @@ theme(axis.text.x = element_blank())
 data_plot_race
 
 
-write_rds(data_plot_race, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/barplot_race.rds")
+write_rds(data_plot_race, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/race/barplot_race.rds")
 
 
 ```
@@ -51,7 +51,7 @@ race_violin <- m %>%
 race_violin
 
 
-write_rds(race_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/violin_race.rds")
+write_rds(race_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/race/violin_race.rds")
 ```
 
 
@@ -127,7 +127,7 @@ white_permutation_plot<- white_replications %>%
 white_permutation_plot
 
 
-write_rds(white_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/white_permutation.rds")
+write_rds(white_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/race/white_permutation.rds")
 ```
 
 ```{r Asian permutation}
@@ -154,7 +154,7 @@ asian_permutation_plot
 
 
 
-#write_rds(asian_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/asian_permutation.rds")
+#write_rds(asian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/race/asian_permutation.rds")
 
 ```
 
@@ -181,7 +181,7 @@ labs(title = "Distribution of Mean Number of Black/African American Friends per 
 
 black_permutation_plot
 
-write_rds(black_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/black_permutation.rds")
+write_rds(black_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/race/black_permutation.rds")
 
 ```
 
@@ -209,6 +209,6 @@ labs(title = "Distribution of Mean Number of Hispanic/Latino Friends per Hispani
 
 hispanic_permutation_plot 
 
-write_rds(hispanic_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/race/hispanic_permutation.rds")
+write_rds(hispanic_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/race/hispanic_permutation.rds")
 
 ```

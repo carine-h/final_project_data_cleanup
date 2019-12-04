@@ -140,7 +140,7 @@ ui <- navbarPage(
         
         title = "Race",
         
-        h3("How did our respondents vary in race"),
+        h3("How did our respondents vary in race?"),
         fluidRow(
             column(12,
                 mainPanel(
@@ -148,8 +148,9 @@ ui <- navbarPage(
                ))),
         
         br(),
+        br(),
         
-        h3("How did participants of each race respond"),
+        h3("How did participants of each race respond?"),
         
         fluidRow(
           column(12,
@@ -158,6 +159,10 @@ ui <- navbarPage(
                  ))),
         
         br(),
+        br(),
+        br(),
+        
+        h3("How does the mean number of same race responses compare to what we would expect under random friend assignment?"),
         
         sidebarLayout(
             
@@ -170,6 +175,7 @@ ui <- navbarPage(
                              choices = c("White", "Black", "Asian", "Hispanic"
                                          
                              ))),
+            
             
             mainPanel(
                 
@@ -186,7 +192,7 @@ ui <- navbarPage(
   
     title = "Religion",
   
-    h3("How did our respondents vary by religion"),
+    h3("How did our respondents vary by religion?"),
     fluidRow(
      column(12,
              mainPanel(
@@ -194,8 +200,9 @@ ui <- navbarPage(
             ))),
   
     br(),
+    br(),
   
-   h3("How did participants of each religion respond"),
+   h3("How did participants of each religion respond?"),
   
     fluidRow(
      column(12,
@@ -204,6 +211,10 @@ ui <- navbarPage(
             ))),
   
     br(),
+   br(),
+   br(),
+   
+   h3("How does the mean number of same religion responses compare to what we would expect under random friend assignment?"),
   
     sidebarLayout(
     
@@ -229,13 +240,14 @@ ui <- navbarPage(
     
     title = "Legacy",
     
-    h3("How did our respondents vary by legacy status"),
+    h3("How did our respondents vary by legacy status?"),
     fluidRow(
       column(12,
              mainPanel(
                plotOutput("barplot_legacy")
              ))),
     
+    br(),
     br(),
     
     h3("How did participants of each legacy status respond"),
@@ -247,6 +259,10 @@ ui <- navbarPage(
              ))),
     
     br(),
+    br(),
+    br(),
+    
+    h3("How does the mean number of same legacy status responses compare to what we would expect under random friend assignment?"),
     
     sidebarLayout(
       
@@ -280,6 +296,7 @@ ui <- navbarPage(
              ))),
     
     br(),
+    br(),
     
     h3("How did athletes and non-athletes respond?"),
     
@@ -290,6 +307,10 @@ ui <- navbarPage(
              ))),
     
     br(),
+    br(),
+    br(),
+    
+    h3("How does the mean number of same athelete status responses compare to what we would expect under random friend assignment?"),
     
     sidebarLayout(
       
@@ -315,13 +336,14 @@ ui <- navbarPage(
     
     title = "International",
     
-    h3("How many of our respondents were International Students"),
+    h3("How many of our respondents were International Students?"),
     fluidRow(
       column(12,
              mainPanel(
                plotOutput("barplot_international")
              ))),
     
+    br(),
     br(),
     
     h3("How did international students and domestic students respond?"),
@@ -333,6 +355,10 @@ ui <- navbarPage(
              ))),
     
     br(),
+    br(),
+    br(),
+    
+    h3("How does the mean number of same international status responses compare to what we would expect under random friend assignment?"),
     
     sidebarLayout(
       
@@ -358,7 +384,7 @@ ui <- navbarPage(
     
     title = "Concentration",
     
-    h3("How did our respondents vary by concentration"),
+    h3("How did our respondents vary by concentration?"),
     fluidRow(
       column(12,
              mainPanel(
@@ -366,8 +392,9 @@ ui <- navbarPage(
              ))),
     
     br(),
+    br(),
     
-    h3("How did participants of each concentration respond"),
+    h3("How did participants of each concentration respond?"),
     
     fluidRow(
       column(12,
@@ -376,6 +403,10 @@ ui <- navbarPage(
              ))),
     
     br(),
+    br(),
+    br(),
+    
+    h3("How does the mean number of same concentration focus responses compare to what we would expect under random friend assignment?"),
     
     sidebarLayout(
       
@@ -401,13 +432,14 @@ ui <- navbarPage(
    
    title = "First Gen",
    
-   h3("How many of our respondents were First Gen Students"),
+   h3("How many of our respondents were First Gen Students?"),
    fluidRow(
      column(12,
             mainPanel(
               plotOutput("barplot_firstgen")
             ))),
    
+   br(),
    br(),
    
    h3("How did first gen students and non first gen students respond?"),
@@ -419,6 +451,11 @@ ui <- navbarPage(
             ))),
    
    br(),
+   br(),
+   br(),
+   
+   
+   h3("How does the mean number of same first gen status responses compare to what we would expect under random friend assignment?"),
    
    sidebarLayout(
      
@@ -444,13 +481,14 @@ ui <- navbarPage(
    
    title = "Urban",
    
-   h3("How many of our respondents are from urban or rural settings"),
+   h3("How many of our respondents are from urban or rural settings?"),
    fluidRow(
      column(12,
             mainPanel(
               plotOutput("barplot_urban")
             ))),
    
+   br(),
    br(),
    
    h3("How did urban and rural students respond?"),
@@ -462,6 +500,10 @@ ui <- navbarPage(
             ))),
    
    br(),
+   br(),
+   br(),
+   
+   h3("How does the mean number of same urban status responses compare to what we would expect under random friend assignment?"),
    
    sidebarLayout(
      
@@ -479,9 +521,9 @@ ui <- navbarPage(
        
        plotOutput("urban_permutation_plot")
        
-     ))), 
+     ))),
  
- # The "Politics" tab will provide all analysis related to the political variable
+ #The "Politics" tab will provide all analysis related to the political variable
  
  tabPanel(
    
@@ -496,33 +538,23 @@ ui <- navbarPage(
    
    br(),
    
-   h3("Let's look at a regression of political views"),
+   h3("How did people's political views relate to their friends political views?"),
    
    fluidRow(
      column(12,
             mainPanel(
-              plotOutput("regression_table_political")
+              plotOutput("linear_plot_political")
             ))),
    
    br(),
+    
+   h3("Let's analyze this correlation statistically"),
    
-   sidebarLayout(
-     
-     sidebarPanel(
-       
-       radioButtons(inputId = "urban_permutation", 
-                    
-                    label = "Urban", 
-                    
-                    choices = c("Urban", "Rural"
-                                
-                    ))),
-     
-     mainPanel(
-       
-       plotOutput("urban_permutation_plot")
-       
-     )))
+   fluidRow(
+     column(12,
+            mainPanel(
+              tableOutput("regression_table_political")
+            ))))
  
 )
             
@@ -873,34 +905,23 @@ server <- function(input, output) {
           
           #Content of Politics Tab
           
-          output$violin_urban <- renderPlot({
+          output$data_plot_political <- renderPlot({
             
-            violin_urban
+            data_plot_political
             
           })  
           
-          output$barplot_urban<- renderPlot({
+          output$linear_plot_political<- renderPlot({
             
-            barplot_urban    
+            linear_plot_political   
             
-          })
+         })
           
+          output$regression_table_political<- renderTable({
+            
+            regression_table_political
           
-          output$urban_permutation_plot <- renderPlot({
-            
-            if(input$urban_permutation == "Urban"){
-              
-              urban_permutation
-              
-            }
-            
-            
-            
-            else if(input$urban_permutation == "Rural"){
-              
-              rural_permutation
-              
-            }              
+                   
           })  
           
           

@@ -42,7 +42,7 @@ data_plot_urban <- ggplot(m, aes(x = urban_r, fill = urban_r)) +
 
 data_plot_urban
 
-write_rds(data_plot_urban, "~/Desktop/R studio/final_project_data_cleanup/shiny/urban/barplot_urban.rds")
+write_rds(data_plot_urban, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/urban/barplot_urban.rds")
 ```
 
 ```{r}
@@ -57,7 +57,7 @@ urban_violin <- m %>%
 urban_violin
 
 
-write_rds(urban_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/urban/violin_urban.rds")
+write_rds(urban_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/urban/violin_urban.rds")
 ```
 
 
@@ -125,7 +125,7 @@ rural_permutation_plot<- rural_replications %>%
 
 rural_permutation_plot
 
-write_rds(rural_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/urban/rural_permutation.rds")
+write_rds(rural_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/urban/rural_permutation.rds")
 ```
 
 
@@ -149,5 +149,5 @@ urban_permutation_plot<- urban_replications %>%
 
 urban_permutation_plot
 
-write_rds(urban_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/urban/urban_permutation.rds")
+write_rds(urban_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/urban/urban_permutation.rds")
 ```

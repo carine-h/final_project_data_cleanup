@@ -32,7 +32,7 @@ data_plot_religion<- ggplot(m, aes(x = religion_r,fill=religion_r)) +
 
 data_plot_religion
 
-write_rds(data_plot_religion, "~/Desktop/R studio/final_project_data_cleanup/shiny/religion/barplot_religion.rds")
+write_rds(data_plot_religion, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/religion/barplot_religion.rds")
 
 ```
 
@@ -51,7 +51,7 @@ religion_violin <- m %>%
 
 religion_violin
 
-write_rds(religion_violin, "~/Desktop/R studio/final_project_data_cleanup/shiny/religion/violin_religion.rds")
+write_rds(religion_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/religion/violin_religion.rds")
 ```
 
 
@@ -123,7 +123,7 @@ christian_permutation_plot<-christian_replications %>%
 
  christian_permutation_plot
 
-write_rds(christian_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/religion/christian_permutation.rds")
+write_rds(christian_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/religion/christian_permutation.rds")
              
 
 ```
@@ -149,7 +149,7 @@ agnostic_or_atheist_permutation_plot<-agnostic_or_atheist_replications %>%
 agnostic_or_atheist_permutation_plot
 
 
-write_rds(agnostic_or_atheist_permutation_plot, "~/Desktop/R studio/final_project_data_cleanup/shiny/religion/agnostic_or_atheist_permutation.rds")
+write_rds(agnostic_or_atheist_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/religion/agnostic_or_atheist_permutation.rds")
              
 ```
 
