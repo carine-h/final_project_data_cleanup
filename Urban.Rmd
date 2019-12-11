@@ -33,26 +33,36 @@ library(ggplot2)
 m <- read_csv("m.csv")
 ```
 
-```{r}
+```{r urban distribution}
 data_plot_urban <- ggplot(m, aes(x = urban_r, fill = urban_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
   scale_y_continuous(labels = scales::percent)+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 data_plot_urban
 
 write_rds(data_plot_urban, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/urban/barplot_urban.rds")
 ```
 
-```{r}
+```{r urban violin}
 urban_violin <- m %>%
   ggplot(aes(x=urban_r, y = n_same_urban, color = urban_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
-  geom_jitter(shape = 16, color = "black", size = .5) + 
+  geom_jitter(shape = 16, color = "black", size = .5, height = 0.1, width = 0.2) + 
   labs(title = "Distribution of Friends' Geographic Location per Respondents' Geographic Location", y = "Number of Friends with Same Geographic Origins", x = "Type of Geographic Origin of Respondent") +
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 urban_violin
 
@@ -61,7 +71,7 @@ write_rds(urban_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/urb
 ```
 
 
-```{r}
+```{r urban for loop}
 m_random_urban<-
     
   tibble(replicate = 1:10000) %>%
@@ -105,7 +115,7 @@ count<-count}
 m_random_urban$n_same_urban[i]<-count}
 ```
 
-```{r}
+```{r rural permutation}
 rural_replications <- m_random_urban %>%
    filter(urban_r=="Rural")%>%
   select(n_same_urban)%>%
@@ -121,7 +131,12 @@ rural_permutation_plot<- rural_replications %>%
   ggplot(aes(x=mean_same_urban))+
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_rural, color = "blue") + 
-  labs(title = "Distribution of Mean Number of Friends with Rural Origins with a Respondent with Rural Origins", subtitle = "The distribution of the number of friends with the same geographical origins as the respondent", x = "Mean Number of Friend with Same Rural Origin per Rural Respondent per Replication", y = "Density")
+  labs(title = "Distribution of Mean Number of Friends with Rural Origins with a Respondent with Rural Origins", subtitle = "The distribution of the number of friends with the same geographical origins as the respondent", x = "Mean Number of Friend with Same Rural Origin per Rural Respondent per Replication", y = "Density")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 rural_permutation_plot
 
@@ -129,7 +144,7 @@ write_rds(rural_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup
 ```
 
 
-```{r}
+```{r urban permutation}
 urban_replications <- m_random_urban %>%
    filter(urban_r=="Urban")%>%
   select(n_same_urban)%>%
@@ -137,15 +152,26 @@ urban_replications <- m_random_urban %>%
   group_by(replicate) %>% 
   summarize(mean_same_urban = mean(n_same_urban))
 
+urban_replications
+
+
+  
 mean_observed_urban <- as.numeric(m%>%
   filter(urban_r=="Urban")%>%
+    drop_na()%>%
   summarize(mean=mean(n_same_urban)))
+mean_observed_urban
 
 urban_permutation_plot<- urban_replications %>%
   ggplot(aes(x=mean_same_urban))+
   geom_density(fill = "seagreen1")+
-  geom_vline(xintercept=mean_observed_urban, color = "blue") + 
-  labs(title = "Distribution of Mean Number of Friends with Urban Origins with a Respondent with Urban Origins", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Friend with Same Urban Origin per Urban Respondent per Replication", y = "Density")
+  geom_vline(xintercept= mean_observed_urban, color = "blue") + 
+  labs(title = "Distribution of Mean Number of Friends with Urban Origins with a Respondent with Urban Origins", subtitle = "Our observed value, shown in blue, is bigger than we would expect under random friend assignment", x = "Mean Number of Friend with Same Urban Origin per Urban Respondent per Replication", y = "Density")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 urban_permutation_plot
 

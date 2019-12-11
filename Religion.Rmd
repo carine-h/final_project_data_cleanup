@@ -23,12 +23,17 @@ m <- read_csv("m.csv")%>%
 ```
 
 
-```{r}
+```{r religion distribution}
 data_plot_religion<- ggplot(m, aes(x = religion_r,fill=religion_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage") +
   scale_y_continuous(labels = scales::percent) +
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 data_plot_religion
 
@@ -40,14 +45,20 @@ write_rds(data_plot_religion, "~/Desktop/GOV_1005/final_project_data_cleanup/shi
 
 # NOT SURE ABOUT CODING HERE-- I replaced n_same_concentreation with n_same_religion and religion_r so I might be wrong
 religion_violin <- m %>%
-  filter(religion_p1 %in% c("Christian","Agnostic or Atheist","Jewish"))%>%
+  filter(religion_r %in% c("Christian","Agnostic or Atheist","Jewish"))%>%
   ggplot(aes(x=religion_r, y = n_same_religion, color = religion_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
-  geom_jitter(shape = 16, color = "black", size = .5) + 
+  geom_jitter(shape = 16, color = "black", size = .5, height= 0.1, width = 0.2) + 
   theme(axis.text.x = element_text(angle = 90)) +
-  labs(title = "Distribution of Same Religion Friends per Respondent Religion", y = "Number of Same Religion Friends") +
-  theme(legend.position = "none")
+  labs(title = "Distribution of Same Religion Friends per Respondent Religion", y = "Number of Same Religion Friends", x = "Religion")+
+    theme(axis.text.x = element_blank())+
+ theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())+
+   theme(axis.text.x = element_blank())
 
 religion_violin
 
@@ -103,7 +114,7 @@ m_random_religion$n_same_religion[i]<-count}
 ```
 
 
-```{r}
+```{r permutations for religion}
 christian_replications <- m_random_religion%>%
   filter(religion_r=="Christian")%>%
   select(n_same_religion)%>%
@@ -119,7 +130,13 @@ christian_permutation_plot<-christian_replications %>%
   ggplot(aes(x=mean_same_religion))+
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_christian, color = "blue") + 
-  labs(title = "Distribution of Mean Number of Friends with Christian Beliefs per Respondent with Christian Belief Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Number of Friends with Same Christian Beliefs per Respondent with Christian Beliefs per Replication", y = "Density")
+  labs(title = "Distribution of Mean Number of Friends with Christian Beliefs per Respondent with Christian Belief Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Number of Friends with Same Christian Beliefs per Respondent with Christian Beliefs per Replication", y = "Density")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())+
+   theme(axis.text.x = element_blank())
 
  christian_permutation_plot
 
@@ -144,7 +161,13 @@ agnostic_or_atheist_permutation_plot<-agnostic_or_atheist_replications %>%
   ggplot(aes(x=mean_same_religion))+
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_agnostic_or_atheist, color = "blue") + 
-  labs(title = "Distribution of Mean Friends' Same Religion Values (when respondent is Atheist/Agnostic) Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Number of Friends with Same Agnostic/Atheist Beliefs per Respondent with Agnostic/Atheist Beliefs per Replication", y = "Density")
+  labs(title = "Distribution of Mean Friends' Same Religion Values (when respondent is Atheist/Agnostic) Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Number of Friends with Same Agnostic/Atheist Beliefs per Respondent with Agnostic/Atheist Beliefs per Replication", y = "Density")+
+theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())+
+   theme(axis.text.x = element_blank())
 
 agnostic_or_atheist_permutation_plot
 

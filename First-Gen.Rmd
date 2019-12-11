@@ -28,13 +28,18 @@ m <- read_csv("m.csv")%>%
 ```
 
 
-```{r}
+```{r first gen distribution}
 
 data_plot_firstgen<- ggplot(m, aes(x = firstgen_r, fill = firstgen_r))+
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
   scale_y_continuous(labels = scales::percent)+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 data_plot_firstgen
 
@@ -42,15 +47,19 @@ write_rds(data_plot_firstgen, "~/Desktop/GOV_1005/final_project_data_cleanup/shi
 ```
 
 
-```{r}
+```{r distribution of first-gen answers}
 firstgen_violin <- m %>%
   ggplot(aes(x=firstgen_r, y = n_same_firstgen, color = firstgen_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
-  geom_jitter(shape = 16, color = "black", size = .5) + 
-  theme(axis.text.x = element_text(angle = 90)) +
+  geom_jitter(shape = 16, color = "black", size = .5, height = 0.1, width = 0.2) + 
   labs(title = "Distribution of Same Race Friends per Respondent First-Gen", y = "Number of Same First-Gen Friends", x = "Respondent: First-Gen?") +
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 firstgen_violin
 
@@ -103,7 +112,7 @@ m_random_firstgen$n_same_firstgen[i]<-count}
 ```
 
 
-```{r}
+```{r first gen permuation 1}
 
 firstgen_yes_replications <- m_random_firstgen %>%
    filter(firstgen_r=="Yes")%>%
@@ -121,7 +130,12 @@ firstgen_yes_permutation_plot<- firstgen_yes_replications %>%
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_firstgen_yes, color = "blue") + 
  labs(title = "Distribution of Mean Number of First-Gen Friends per First-Gen Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (First-Gen per Replication",y = "Density")+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 firstgen_yes_permutation_plot
 
@@ -129,7 +143,7 @@ write_rds(firstgen_yes_permutation_plot, "~/Desktop/GOV_1005/final_project_data_
 ```
 
 
-```{r}
+```{r first gen perm 2}
 firstgen_no_replications <- m_random_firstgen %>%
    filter(firstgen_r=="No")%>%
   select(n_same_firstgen)%>%
@@ -146,7 +160,12 @@ firstgen_no_permutation_plot<- firstgen_no_replications %>%
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_firstgen_no, color = "blue") + 
  labs(title = "Distribution of Mean Number of Non-First-Gen Friends per Non-First-Gen Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (Non-First-Genl) per Replication",y = "Density")+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 firstgen_no_permutation_plot
 

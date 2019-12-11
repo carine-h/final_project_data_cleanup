@@ -375,7 +375,11 @@ m$n_same_urban[i]<-count}
 
 ```{r friend groups}
 # we gather the data we refined and create a friend group data set. This counts the number of answers matching the respondent's in each friend group for each varible:
+m <- m%>%
+  drop_na()
+
 write.csv(m, 'm.csv')
+
 
 friend_groups<-
   m%>%

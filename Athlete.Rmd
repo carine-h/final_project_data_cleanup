@@ -34,7 +34,12 @@ data_plot_athlete<- ggplot(m, aes(x = athlete_r, fill = athlete_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
   scale_y_continuous(labels = scales::percent)+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 data_plot_athlete
 
@@ -47,10 +52,14 @@ athlete_violin <- m %>%
   ggplot(aes(x=athlete_r, y = n_same_athlete, color = athlete_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
-  geom_jitter(shape = 16, color = "black", size = .5) + 
-  theme(axis.text.x = element_text(angle = 90)) +
+  geom_jitter(shape = 16, color = "black", size = .5, height =0.1, width = 0.2) + 
   labs(title = "Distribution of Same Race Friends per Respondent Athlete", y = "Number of Same Athlete Friends", x = "Athlete") +
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 
 athlete_violin
@@ -121,7 +130,12 @@ athlete_yes_permutation_plot<- athlete_yes_replications %>%
   ggplot(aes(x=mean_same_athlete))+
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_athlete_yes, color = "blue") + 
-  labs(title = "Distribution of Mean Number of Athlete Friends per Athlete Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (Athlete) per Replication",y = "Density")
+  labs(title = "Distribution of Mean Number of Athlete Friends per Athlete Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (Athlete) per Replication",y = "Density")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 athlete_yes_permutation_plot
 
@@ -145,7 +159,17 @@ athlete_no_permutation_plot<- athlete_no_replications %>%
   ggplot(aes(x=mean_same_athlete))+
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_athlete_no, color = "blue") + 
-  labs(title = "Distribution of Mean Number of Non-Athlete Friends per Non-Athlete Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (Non-Athlete) per Replication",y = "Density")
+  labs(title = "Distribution of Mean Number of Non-Athlete Friends per Non-Athlete Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is slightly larger than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (Non-Athlete) per Replication",y = "Density")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 athlete_no_permutation_plot
 

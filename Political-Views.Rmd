@@ -26,7 +26,7 @@ m <- read_csv("m.csv")
 ```
 
 
-```{r}
+```{r political distribution}
 
 
 political_data<- 
@@ -68,7 +68,12 @@ political_data<-
 linear_plot_political<- ggplot(political_data, aes(x=political_r_numeric,y=avg_distance))+
   geom_jitter() +
   stat_smooth (method="lm") +
-  labs(title="Relationship between Own and Friends' Political Values", x="Political Values of Respondent", y="Average Political Values of Friend Group")
+  labs(title="Relationship between Own and Friends' Political Values", x="Political Values of Respondent", y="Average Political Values of Friend Group")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 political_lm_model <-
   lm(avg_distance ~ political_r_numeric, data = political_data)
@@ -94,14 +99,19 @@ write_rds(regression_table_political, "~/Desktop/GOV_1005/final_project_data_cle
 
 
  
-```{r}
+```{r political plot}
 
 
 data_plot_political <- ggplot(political_data, aes(x = political_r_numeric, fill = "seagreen1"))+ 
   geom_bar(aes(y = (..count..)/sum(..count..), fill = "seagreen1"))+
   scale_y_continuous(labels = scales::percent) +
   labs(title="Distribution of Data Points", subtitle="0 = Very Conservative, 4 = Very Liberal", x="Different Values", y= "Percentage")+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
  
 data_plot_political
 

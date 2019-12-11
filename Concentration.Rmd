@@ -33,7 +33,12 @@ data_plot_concentration<- ggplot(m, aes(x = concentration_r,fill=concentration_r
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage") +
   scale_y_continuous(labels = scales::percent)+
-  theme(axis.text.x = element_blank())
+  theme(axis.text.x = element_blank())+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 data_plot_concentration
 
@@ -49,10 +54,14 @@ concentration_violin <- m %>%
   ggplot(aes(x=concentration_r, y = n_same_concentration, color = concentration_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
-  geom_jitter(shape = 16, color = "black", size = .5) + 
-  theme(axis.text.x = element_text(angle = 90)) +
-  labs(title = "Distribution of Same Concentration Friends per Respondent Concentration", y = "Number of Same Concentration Friends") +
-  theme(legend.position = "none")
+  geom_jitter(shape = 16, color = "black", size = .5, height = 0.1, width = 0.2) + 
+  labs(title = "Distribution of Same Concentration Friends per Respondent Concentration", y = "Number of Same Concentration Friends", x = "Concentration") +
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 concentration_violin
 
@@ -122,7 +131,12 @@ stem_permutation_plot<- stem_replications %>%
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
   labs(title = "Distribution of Mean Number of Friends Studying STEM per Respondent Studying STEM Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Academic Status` Friends (STEM) per Replication", y = "Density")+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 stem_permutation_plot
 
@@ -146,7 +160,12 @@ humanities_permutation_plot<- humanities_replications %>%
   ggplot(aes(x=mean_same_concentration))+
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
- labs(title = "Distribution of Mean Number of Friends Studying Humanities per Respondent Studying Humanities Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Academic Status` Friends (Humanities) per Replication", y = "Density")
+ labs(title = "Distribution of Mean Number of Friends Studying Humanities per Respondent Studying Humanities Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Academic Status` Friends (Humanities) per Replication", y = "Density")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 humanities_permutation_plot
 
@@ -171,7 +190,12 @@ social_sciences_permutation_plot<- social_sciences_replications %>%
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_stem, color = "blue") + 
 labs(title = "Distribution of Mean Number of Friends Studying Social Science per Respondent Studying Social Science Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Academic Status` Friends (Social Science) per Replication", y = "Density")+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 social_sciences_permutation_plot
 

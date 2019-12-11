@@ -27,12 +27,17 @@ m <- read_csv("m.csv")%>%
 ```
 
 
-```{r}
+```{r international distribution}
 data_plot_international<- ggplot(m, aes(x = international_r, fill = international_r)) +
   geom_bar(aes(y = (..count..)/sum(..count..))) +
   labs(title="Distribution of Data Points", x="Different Values", y= "Percentage")  +
   scale_y_continuous(labels = scales::percent)+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 data_plot_international
 
@@ -40,15 +45,20 @@ write_rds(data_plot_international, "~/Desktop/GOV_1005/final_project_data_cleanu
 ```
 
 
-```{r}
+```{r international violin}
 international_violin <- m %>%
   ggplot(aes(x=international_r, y = n_same_international, color = international_r)) +
   geom_violin() +
   stat_summary(fun.y = mean, geom = "point") +
-  geom_jitter(shape = 16, color = "black", size = .5) + 
+  geom_jitter(shape = 16, color = "black", size = .5, height = 0.1, width = 0.2) + 
   theme(axis.text.x = element_text(angle = 90)) +
   labs(title = "Distribution of International Friends per Respondent", y = "Number of Same International Friends", x = "Respondent: International?") +
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 international_violin
 
@@ -56,7 +66,7 @@ write_rds(international_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/s
 ```
 
 
-```{r}
+```{r for loop international}
 m_random_international<-
     
     tibble(replicate = 1:10000)%>%
@@ -101,7 +111,7 @@ m_random_international$n_same_international[i]<-count}
 ```
 
 
-```{r}
+```{r yes international permutation}
 
 international_yes_replications <- m_random_international %>%
    filter(international_r=="Yes")%>%
@@ -118,8 +128,13 @@ international_yes_permutation_plot<- international_yes_replications %>%
   ggplot(aes(x=mean_same_international))+
   geom_density(fill = "seagreen1")+
   geom_vline(xintercept=mean_observed_international_yes, color = "blue") + 
-   labs(title = "Distribution of Mean Number of International Friends per International Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (International) per Replication",y = "Density")+
-  theme(legend.position = "none")
+   labs(title = "Distribution of Mean Number of International Friends per International Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is larger than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (International) per Replication",y = "Density")+
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 international_yes_permutation_plot
 
@@ -127,7 +142,7 @@ write_rds(international_yes_permutation_plot, "~/Desktop/GOV_1005/final_project_
 ```
 
 
-```{r}
+```{r international no permutation}
 international_no_replications <- m_random_international %>%
    filter(international_r=="No")%>%
   select(n_same_international)%>%
@@ -144,7 +159,12 @@ international_no_permutation_plot<- international_no_replications %>%
   geom_density(fill="seagreen1")+
   geom_vline(xintercept=mean_observed_international_no, color = "blue") + 
    labs(title = "Distribution of Mean Number of Non-International Friends per Non-International Respondent Under the Null Hypothesis", subtitle = "Our observed value, shown in blue, is smaller than we would expect under random friend assignment", x = "Mean Number of `Same Status` Friends (Non-International) per Replication",y = "Density")+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  theme(
+  plot.background = element_rect(fill = "white"),
+  panel.background = element_rect(fill = "white"),
+  axis.line.x = element_line(color = "grey"))+
+  theme(legend.title = element_blank())
 
 international_no_permutation_plot
 
