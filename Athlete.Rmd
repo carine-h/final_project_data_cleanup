@@ -19,6 +19,7 @@ library(reshape2)
 library(moderndive)
 library(gt)
 library(ggplot2)
+library(wesanderson)
 ```
 
 ```{r}
@@ -114,7 +115,6 @@ m_random_athlete$n_same_athlete[i]<-count}
 
 
 ```{r}
-library(wesanderson)
 athlete_yes_replications <- m_random_athlete %>%
    filter(athlete_r=="Yes")%>%
   select(n_same_athlete)%>%
