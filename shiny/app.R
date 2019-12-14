@@ -49,7 +49,6 @@ firstgen_yes_permutation <- read_rds("./firstgen/firstgen_yes_permutation.rds")
 violin_firstgen<- read_rds("./firstgen/violin_firstgen.rds")
 barplot_firstgen <- read_rds("./firstgen/barplot_firstgen.rds")
 
-# Import data for  political views tab
 
 
 #Import data for international tab
@@ -91,7 +90,7 @@ ui <- navbarPage(
     
     
     
-    title = "Harvard Self-Segregation Study",
+    title = "Harvard Friend Group Selection Study",
     
     
     
@@ -117,6 +116,10 @@ ui <- navbarPage(
         
         title = "About",
         
+        fluidPage(
+          HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/j40ZULTNE78" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+        ),
+        
         fluidRow(
             
             column(12,
@@ -137,8 +140,19 @@ ui <- navbarPage(
     
     
     tabPanel(
+      title = "Race",
         
-        title = "Race",
+      fluidRow(
+        
+        column(12,
+               
+               wellPanel(
+                 
+                 htmlOutput("racedescription")
+                 
+               ))
+        
+      ),
         
         h3("How did our respondents vary in race?"),
         fluidRow(
@@ -191,6 +205,18 @@ ui <- navbarPage(
   tabPanel(
   
     title = "Religion",
+    
+    fluidRow(
+      
+      column(12,
+             
+             wellPanel(
+               
+               htmlOutput("religiondescription")
+               
+             ))
+      
+    ),
   
     h3("How did our respondents vary by religion?"),
     fluidRow(
@@ -240,6 +266,18 @@ ui <- navbarPage(
     
     title = "Legacy",
     
+    fluidRow(
+      
+      column(12,
+             
+             wellPanel(
+               
+               htmlOutput("legacydescription")
+               
+             ))
+      
+    ),
+    
     h3("How did our respondents vary by legacy status?"),
     fluidRow(
       column(12,
@@ -287,6 +325,18 @@ ui <- navbarPage(
   tabPanel(
     
     title = "Athlete",
+    
+    fluidRow(
+      
+      column(12,
+             
+             wellPanel(
+               
+               htmlOutput("athletedescription")
+               
+             ))
+      
+    ),
     
     h3("How many of our respondents were atheletes?"),
     fluidRow(
@@ -336,6 +386,18 @@ ui <- navbarPage(
     
     title = "International",
     
+    fluidRow(
+      
+      column(12,
+             
+             wellPanel(
+               
+               htmlOutput("internationaldescription")
+               
+             ))
+      
+    ),
+    
     h3("How many of our respondents were International Students?"),
     fluidRow(
       column(12,
@@ -384,6 +446,18 @@ ui <- navbarPage(
     
     title = "Concentration",
     
+    fluidRow(
+      
+      column(12,
+             
+             wellPanel(
+               
+               htmlOutput("concentrationdescription")
+               
+             ))
+      
+    ),
+    
     h3("How did our respondents vary by concentration?"),
     fluidRow(
       column(12,
@@ -431,6 +505,18 @@ ui <- navbarPage(
  tabPanel(
    
    title = "First Gen",
+   
+   fluidRow(
+     
+     column(12,
+            
+            wellPanel(
+              
+              htmlOutput("firstgendescription")
+              
+            ))
+     
+   ),
    
    h3("How many of our respondents were First Gen Students?"),
    fluidRow(
@@ -481,6 +567,18 @@ ui <- navbarPage(
    
    title = "Urban",
    
+   fluidRow(
+     
+     column(12,
+            
+            wellPanel(
+              
+              htmlOutput("urbandescription")
+              
+            ))
+     
+   ),
+   
    h3("How many of our respondents are from urban or rural settings?"),
    fluidRow(
      column(12,
@@ -529,6 +627,18 @@ ui <- navbarPage(
    
    title = "Politics",
    
+   fluidRow(
+     
+     column(12,
+            
+            wellPanel(
+              
+              htmlOutput("politicsdescription")
+              
+            ))
+     
+   ),
+   
    h3("What did the political maekup of our sample look like?"),
    fluidRow(
      column(12,
@@ -570,7 +680,7 @@ ui <- navbarPage(
 
 
 
-server <- function(input, output) {
+server <- function(input, output, session) {
     
     
     
@@ -592,7 +702,7 @@ server <- function(input, output) {
             
             h3("Research Design"),
             
-            p("Our data on friend group composition comes from a survey taken by around 80 Eliot House residents. Respondents were asked to fill out information about themselves as well as their four closest friends or acquaintances at Harvard pertaining to ethnicity, background, legacy status, immigration status, extracurricular activities, areas of studies and others."),
+            p("Our data on friend group composition comes from a survey taken by over 100 Eliot House residents. Respondents were asked to fill out information about themselves as well as their four closest friends or acquaintances at Harvard pertaining to ethnicity, background, legacy status, immigration status, extracurricular activities, areas of studies and others."),
             
             br(),
             
@@ -604,7 +714,7 @@ server <- function(input, output) {
             
             h3("Findings"),
             
-            p("For this milestone, we analyzed self-segregation by race. For our final project, using a similar method, we want to visualize and evaluate the significance of our findings for religion, concentrational division, athlete, legacy, and first-generation status, national/international background, and political opinions. For race, we find that white students are significantly less likely to self-segregate than the average, whereas African American and Asian American respondents were more likely to form friendships within their own groups.")
+            p("In short, we conclude that there is a significant degree of self-segregation amongst at least some subgroups for all of the variables studied. In particular, we observe a significant degree of self-segregation among Asian Americans, Christians, international students, STEM and social sciences students, athletes, non-legacy students, and first-generation students. Amongst these, the difference between the overall proportion of students and the prevalence of in-group friendships is particularly striking for Asian Americans, Social Science concentrators, student athletes, and first-generation students. While sample sizes are not large enough to draw any meaningful conclusions, a preliminary analysis also suggests significant rates of in-group selection among African American and Hispanics as well as humanities concentrators. Interestingly, however, White, atheist/agnostic, and American respondents display statistically significant rates of “negative self-segregation”, suggesting that they are more likely to seek out friends different from themselves. .Lastly, political values are clearly and significantly correlated amongst respondents and their friend groups. Due perhaps in part to the scarcity of self-identified conservatives at Harvard, our regression analysis suggests that even strongly conservative students’ friend groups tend to be fairly moderate. For every increase of one point among a 4-point scale measuring political liberalism, however, the mean value of a respondents’ friend group rises by more than a quarter.")
             
             
         ))
@@ -614,6 +724,17 @@ server <- function(input, output) {
     
     
     # Content of Race Tab
+    
+    output$racedescription <- renderUI({
+      
+      HTML(paste(
+          
+          h3("Summary"),
+          
+          p("These plots show the distribution of repeated racial characteristics in friend groups. We have a graph with a distribution that shows the makeup of our sample. The next graph shows our actual findings-- how for each racial category, how many other friends do they have in the same category? Finally we have a permutation plot for each race to visualize if our findings are actually significant. These permutations show what randomized friend group racial makeup would look like given the Crimson data which captures overall racial makeup of the Harvard undergraduate population. Essentially, the permutation assume no self-segregation and serve as a benchmark for the data that we collect. This way, we can compare means of racial makeup to a randomized sample in order to determine if there is self-segregation in friend groups along racial lines and if this differs among different racial categories.")
+      ))
+      
+    })
     
     output$violin_race <- renderPlot({
       
@@ -664,6 +785,17 @@ server <- function(input, output) {
     
     
     #Content of Religion Tab
+    
+    output$religiondescription <- renderUI({
+      
+      HTML(paste(
+        
+        h3("Summary"),
+        
+        p("These plots show the distribution of repeated religious characteristics in friend groups. We have a graph with a distribution that shows the makeup of our sample. The next graph shows our actual findings-- how for each religious category, how many other friends do they have in the same category? Finally we have a permutation plot for each religion to visualize if our findings are actually significant. These permutations show what randomized friend group religious makeup would look like given the Crimson data which captures overall religious makeup of the Harvard undergraduate population. Essentially, the permutation assumes no self-segregation and serve as a benchmark for the data that we collect. This way, we can compare means of religious makeup to a randomized sample in order to determine if there is self-segregation in friend groups along religious lines and if this differs among different religious categories.")
+      ))
+      
+    })
       
       output$violin_religion <- renderPlot({
         
@@ -698,6 +830,17 @@ server <- function(input, output) {
         
       
       #Content of Legacy Tab
+      
+      output$legacydescription <- renderUI({
+        
+        HTML(paste(
+          
+          h3("Summary"),
+          
+          p("These plots show the distribution of legacy makeup in friend groups. We have a graph with a distribution that shows the makeup of our sample. The next graph shows our actual findings-- for each category (legacy and non-legacy), how many other friends do they have in the same category? Finally we have a permutation plot for each status to visualize if our findings are actually significant. These permutations show what a randomized friend group’s makeup (legacy vs. non-legacy) would look like given the Crimson data which captures overall makeup of the Harvard undergraduate population. Essentially, the permutations assume no self-segregation and serve as a benchmark for the data that we collect. This way, we can compare means of makeup to a randomized sample in order to determine if there is self-segregation in friend groups along these category’s lines and if this differs among categories (legacy vs. non-legacy).")
+        ))
+        
+      })
         
         output$violin_legacy <- renderPlot({
           
@@ -722,7 +865,7 @@ server <- function(input, output) {
           
           
           
-          else if(input$religion_permutation == "Not Legacy"){
+          else if(input$legacy_permutation == "Not Legacy"){
             
             legacy_no_permutation
             
@@ -733,6 +876,17 @@ server <- function(input, output) {
       
 
    #Content of Athlete Tab
+        
+        output$athletedescription <- renderUI({
+          
+          HTML(paste(
+            
+            h3("Summary"),
+            
+            p("These plots show the distribution of athletes in friend groups. We have a graph with a distribution that shows the makeup of our sample. The next graph shows our actual findings-- for each category (athlete and non-athlete), how many other friends do they have in the same category? Finally we have a permutation plot for each status to visualize if our findings are actually significant. These permutations show what a randomized friend group’s makeup (athlete vs. non-athlete) would look like given the Crimson data which captures overall makeup of the Harvard undergraduate population. Essentially, the permutations assume no self-segregation and serve as a benchmark for the data that we collect. This way, we can compare means of athletic makeup to a randomized sample in order to determine if there is self-segregation in friend groups along these category’s lines and if this differs among categories (athlete vs. non-athlete).")
+          ))
+          
+        })
         
         output$violin_athlete <- renderPlot({
           
@@ -757,7 +911,7 @@ server <- function(input, output) {
           
           
           
-          else if(input$religion_permutation == "Not Athlete"){
+          else if(input$athlete_permutation == "Not Athlete"){
             
             athlete_no_permutation
             
@@ -767,6 +921,17 @@ server <- function(input, output) {
           
           
   #Content of International Tab
+        
+        output$internationaldescription <- renderUI({
+          
+          HTML(paste(
+            
+            h3("Summary"),
+            
+            p("These plots show the distribution of international makeup in friend groups. We have a graph with a distribution that shows the makeup of our sample. The next graph shows our actual findings-- for each category (international and non-international), how many other friends do they have in the same category? Finally we have a permutation plot for each status to visualize if our findings are actually significant. These permutations show what a randomized friend group’s makeup (international vs. non-international) would look like given the Crimson data which captures overall makeup of the Harvard undergraduate population. Essentially, the permutations assume no self-segregation and serve as a benchmark for the data that we collect. This way, we can compare means of makeup to a randomized sample in order to determine if there is self-segregation in friend groups along these category’s lines and if this differs among categories (international vs. non-international).")
+          ))
+          
+        })
           
           output$violin_international <- renderPlot({
             
@@ -800,6 +965,17 @@ server <- function(input, output) {
     
     
   #Content of Concentration Tab
+          
+          output$concentrationdescription <- renderUI({
+            
+            HTML(paste(
+              
+              h3("Summary"),
+              
+              p("These plots show the distribution of repeated concentrations in friend groups. We have a graph with a distribution that shows the makeup of our sample. The next graph shows our actual findings-- how for each concentration category, how many other friends do they have in the same category? Finally we have a permutation plot for each concentration category to visualize if our findings are actually significant. These permutations show what randomized friend group concentration makeup would look like given the Crimson data which captures overall academic makeup of the Harvard undergraduate population. Essentially, the permutation assumes no self-segregation and serve as a benchmark for the data that we collect. This way, we can compare means of concentration makeup to a randomized sample in order to determine if there is self-segregation in friend groups along academic lines and if this differs among different concentration categories.")
+            ))
+            
+          })
           
           output$violin_concentration <- renderPlot({
             
@@ -838,6 +1014,17 @@ server <- function(input, output) {
     
    #Content of First Gen Tab
           
+          output$firstgendescription <- renderUI({
+            
+            HTML(paste(
+              
+              h3("Summary"),
+              
+              p("These plots show the distribution of first-generation students in friend groups. We have a graph with a distribution that shows the makeup of our sample. The next graph shows our actual findings-- how for first-generation and non-first-gen students, how many other friends do they have in the same category? Finally we have a permutation plot for each category to visualize if our findings are actually significant. These permutations show what randomized friend group makeup would look like given the Crimson data which captures overall academic makeup of the Harvard undergraduate population. Essentially, the permutation assumes no self-segregation and serve as a benchmark for the data that we collect. This way, we can compare means of makeup to a randomized sample in order to determine if there is self-segregation in friend groups along first-generation status.")
+            ))
+            
+          })
+          
           output$violin_firstgen <- renderPlot({
             
             violin_firstgen
@@ -869,6 +1056,17 @@ server <- function(input, output) {
           })
     
   #Content of Urban Tab
+          
+          output$urbandescription <- renderUI({
+            
+            HTML(paste(
+              
+              h3("Summary"),
+              
+              p("These plots show the distribution of repeated geographical characteristics in friend groups. We have a graph with a distribution that shows the makeup of our sample. The next graph shows our actual findings-- for each geographical category (urban and rural), how many other friends do they have in the same category? Finally we have a permutation plot for each category to visualize if our findings are actually significant. These permutations show what randomized friend group geographic makeup would look like given the Crimson data which captures overall geographical makeup of the Harvard undergraduate population. Essentially, the permutations assume no self-segregation and serve as a benchmark for the data that we collect. This way, we can compare means of geographical makeup to a randomized sample in order to determine if there is self-segregation in friend groups along geographical lines and if this differs among different geographical categories.")
+            ))
+            
+          })
           
           output$violin_urban <- renderPlot({
             
@@ -904,6 +1102,17 @@ server <- function(input, output) {
           
           
           #Content of Politics Tab
+          
+          output$politicsdescription <- renderUI({
+            
+            HTML(paste(
+              
+              h3("Summary"),
+              
+              p("These plots show the distribution of political view makeup in friend groups. Finally we have a scatter plot visualizing how the political views (with very liberal being a 4 and very conservative being a 0) of respondents compares to the average political views of their friend group. Essentially, the scatter plot shows a positive relationship between people’s political attitudes and the average political attitudes of their friends, as shown in the blue positive trend line. The shading around the line shows the standard error for each segment of the line, showing the uncertainty of the actual value around each x-value prediction.")
+            ))
+            
+          })
           
           output$data_plot_political <- renderPlot({
             

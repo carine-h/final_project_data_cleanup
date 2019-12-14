@@ -1,0 +1,36 @@
+---
+<h1> Self-Segregation at Elite Universities:</h1>
+<br>
+<h3> A Study of Friend Group Selection at Harvard College </h3>
+<br>
+
+  After the success of civil rights movements in the 1960s, many pundits predicted that segregation would soon become history. In recent decades, however, Americans have become increasingly separated along the lines of demography and political affiliation. These developments have gone hand in hand with unprecedented levels of partisan polarization, which has contributed significantly to the recent success of populist movements in the United States (Abramowitz et al. 2019). 
+
+  Institutions of higher education provide a unique opportunity for bringing people from different backgrounds together in a different environment. Harvard College, like many other elite US universities, has increasingly emphasized the importance of diversity and inclusion in both their admissions process and administrative policies. According to the university’s mission statement, “Harvard's commitment to diversity in all forms is rooted in our fundamental belief that engaging with unfamiliar ideas, perspectives, cultures, and people creates the conditions for dramatic and meaningful growth” (Harvard College 2019). However, both anecdotal and empirical evidence suggests that students’ actual social behavior at institutions like Harvard does not necessarily conform to this high standard.
+
+  Therefore, our research project aims to examine how different demographic variables are correlated with friend group selection among Harvard students. To what extent can we observe homophily, the internal preference for ties with people with similar social characteristics, among undergraduate students at Harvard? We study friend group selection along the lines of race, religion, concentration, urban/rural background, athlete status, legacy status, and self-identification as a first-generation student. Lastly, we develop a model to assess the degree of self-segregation along political values.
+  
+To this end, we interviewed a representative sample of over 100 Harvard upperclassmen at one of the college’s residential houses. At the end of their first year, Harvard students are randomly sorted into twelve different houses. We assume that surveying upperclassmen will provide a more accurate observation of the long-term friendship’s students form while at college. We asked each respondent to complete demographic information about themselves and (to the best of their ability) about their four closest friends at Harvard.
+
+  Opinions diverge on the normative desirability of homophily. While the “integrationist model” emphasizes the role intergroup contact plays in overcoming prejudice and bias, the “social support model” stresses the invaluable assistance that ethnic communities provide for historically underrepresented and marginalized communities (Buttny 1999). In a different context, Rose-Redwood and Rose-Redwood (2013) have argued that intragroup association can boost the accumulation of social capital among international students. 
+
+  Methodologically, we proceeded by comparing the mean percentage of same-group friends to the mean overall proportion of students of the same group at Harvard for each of the variables in our dataset. By resampling 1,000 times, we created a distribution of means under the null hypothesis that friend group assignment is completely random (i.e. not correlated with any of the variables in our dataset). To judge the likelihood of our observed mean given the null hypothesis as a measure of statistical significance, we in a next step look at how often our observed mean occurred in the random distribution. If the percentage lies below 0.05 and the sample size of the group is large enough to approximate a normal distribution, we infer that the variable has a statistically significant correlation with Harvard students’ choice of friend groups. 
+
+  In short, we conclude that there is a significant degree of self-segregation amongst at least some subgroups for all of the variables studied. In particular, we observe a significant degree of self-segregation among Asian Americans, Christians, international students, STEM and social sciences students, athletes, non-legacy students, and first-generation students. Amongst these, the difference between the overall proportion of students and the prevalence of in-group friendships is particularly striking for Asian Americans, Social Science concentrators, student athletes, and first-generation students. While sample sizes are not large enough to draw any meaningful conclusions, a preliminary analysis also suggests significant rates of in-group selection among African American and Hispanics as well as humanities concentrators. Interestingly, however, White, atheist/agnostic, and American respondents display statistically significant rates of “negative self-segregation”, suggesting that they are more likely to seek out friends different from themselves. 
+
+  Lastly, political values are clearly and significantly correlated amongst respondents and their friend groups. Due perhaps in part to the scarcity of self-identified conservatives at Harvard, our regression analysis suggests that even strongly conservative students’ friend groups tend to be fairly moderate. For every increase of one point among a 4-point scale measuring political liberalism, however, the mean value of a respondents’ friend group rises by more than a quarter.
+
+The results of this study align with the common observation that students from the same groups tend to “stick together.” However, there remain a number of promising avenues for future research. Most importantly, the results of this study leave unanswered the question of why some groups are more likely to self-segregate than others. In particular, it is unclear why some groups actively seek out friends from different backgrounds. Lastly, we would want to see how friend group selection at Harvard diverges from social dynamics at other US educational institutions.
+
+<h3> Notes </h3>
+
+Abramowitz, Alan, Jennifer Mccoy, and Murat Somer. "United States: Racial Resentment, Negative Partisanship, and Polarization in Trump’s America." The ANNALS of the American Academy of Political and Social Science 681, no. 1 (2019): 137-56.
+
+Buttny, Richard. "Discursive Constructions of Racial Boundaries and Self-Segregation on Campus." Journal of Language and Social Psychology 18, no. 3 (1999): 247-68.
+ 
+Harvard College. “Life at Harvard, Diversity & Inclusion.” https://college.harvard.edu/life-at-harvard/diversity-inclusion, last accessed December 7, 2019.
+ 
+Ferguson, Niall. "The False Prophecy of Hyperconnection: How to Survive the Networked Age." Foreign Affairs 96, no. 5 (2017): 68-79.
+ 
+Rose-Redwood, Cindyann, and Rose-Redwood, Reuben. "Self-Segregation or Global Mixing? Social Interactions and the International Student Experience." Journal of College Student Development 54, no. 4 (2013): 413-29.
+
