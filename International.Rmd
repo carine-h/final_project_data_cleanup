@@ -41,7 +41,7 @@ data_plot_international<- ggplot(m, aes(x = international_r, fill = internationa
 
 data_plot_international
 
-write_rds(data_plot_international, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/international/barplot_international.rds")
+write_rds(data_plot_international, "~/Documents/final_project_data_cleanup/shiny/international/barplot_international.rds")
 ```
 
 
@@ -62,7 +62,7 @@ international_violin <- m %>%
 
 international_violin
 
-write_rds(international_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/international/violin_international.rds")
+write_rds(international_violin, "~/Documents/final_project_data_cleanup/shiny/international/violin_international.rds")
 ```
 
 
@@ -138,7 +138,7 @@ international_yes_permutation_plot<- international_yes_replications %>%
 
 international_yes_permutation_plot
 
-write_rds(international_yes_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/international/international_yes_permutation.rds")
+write_rds(international_yes_permutation_plot, "~/Documents/final_project_data_cleanup/shiny/international/international_yes_permutation.rds")
 ```
 
 
@@ -168,5 +168,5 @@ international_no_permutation_plot<- international_no_replications %>%
 
 international_no_permutation_plot
 
-write_rds(international_no_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/international/international_no_permutation.rds")
+write_rds(international_no_permutation_plot, "~/Documents/final_project_data_cleanup/shiny/international/international_no_permutation.rds")
 ```

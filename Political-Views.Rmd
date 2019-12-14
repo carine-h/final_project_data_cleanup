@@ -91,9 +91,9 @@ regression_table_political
 
 dir_create("politics")
 
-write_rds(linear_plot_political, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/politics/linear_plot_political.rds")
+write_rds(linear_plot_political, "~/Documents/final_project_data_cleanup/shiny/politics/linear_plot_political.rds")
 
-write_rds(regression_table_political, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/politics/regression_table_political.rds")
+write_rds(regression_table_political, "~/Documents/final_project_data_cleanup/shiny/politics/regression_table_political.rds")
 
 ```
 
@@ -115,7 +115,7 @@ data_plot_political <- ggplot(political_data, aes(x = political_r_numeric, fill 
  
 data_plot_political
 
-write_rds(data_plot_political, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/politics/data_plot_political.rds")
+write_rds(data_plot_political, "~/Documents/final_project_data_cleanup/shiny/politics/data_plot_political.rds")
 
 ```
 

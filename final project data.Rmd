@@ -400,7 +400,7 @@ white_observed_histogram <- m%>%filter(race_r=="White")%>%
 
 
 
-#write_rds(white_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_white.rds")
+#write_rds(white_observed_histogram, "~/Documents/final_project_data_cleanup/rough-draft/o_white.rds")
 
 # the same is done from above, but with Black or African American friends:
 black_observed_histogram <- m%>%filter(race_r=="Black or African American")%>%
@@ -411,7 +411,7 @@ black_observed_histogram <- m%>%filter(race_r=="Black or African American")%>%
   theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
 
-#write_rds(black_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_black.rds")
+#write_rds(black_observed_histogram, "~/Documents/final_project_data_cleanup/rough-draft/o_black.rds")
 
 # the same is done with Asian friends:
 asian_observed_histogram <- m%>%filter(race_r=="Asian")%>%
@@ -421,7 +421,7 @@ asian_observed_histogram <- m%>%filter(race_r=="Asian")%>%
   labs(title = "Observed Distribution of Same Race Friends for Asian Respondents", caption =  "the red line shows how our observed distribtuion compares to the expected \n mean when looking at the proportion of races in the total student body") +
   theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
-#write_rds(asian_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_asian.rds")
+#write_rds(asian_observed_histogram, "~/Documents/final_project_data_cleanup/rough-draft/o_asian.rds")
 
 # the same is done with Hispanic friends:
 hispanic_observed_histogram <- m%>%filter(race_r=="Hispanic or Latino")%>%
@@ -431,7 +431,7 @@ hispanic_observed_histogram <- m%>%filter(race_r=="Hispanic or Latino")%>%
   labs(title = "Observed Distribution of Same Race Friends for Hispanic/Latino Respondents", caption =  "the red line shows how our observed distribtuion compares to the expected \n mean when looking at the proportion of races in the total student body") +
   theme(plot.caption = element_text(hjust = 0, face = "italic"))
 
-#write_rds(hispanic_observed_histogram, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/o_hispanic.rds")
+#write_rds(hispanic_observed_histogram, "~/Documents/final_project_data_cleanup/rough-draft/o_hispanic.rds")
 
 # all of the histograms above will help us see the distribution of same race friends across different races and answer questions about if certain races self-segregate more than others. The violin plot below helps us do the same thing:
 
@@ -443,7 +443,7 @@ race_violin <- m %>%
   theme(axis.text.x = element_text(angle = 90)) +
   labs(title = "Distribution of Same Race Friends per Respondent Race", y = "Number of Same Race Friends")
 
-#write_rds(race_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/rough-draft/race_violin.rds")
+#write_rds(race_violin, "~/Documents/final_project_data_cleanup/rough-draft/race_violin.rds")
 
 m %>%
   ggplot(aes(x=religion_r, y = n_same_religion, color =religion_r)) +

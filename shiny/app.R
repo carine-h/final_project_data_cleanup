@@ -120,6 +120,8 @@ ui <- navbarPage(
           HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/j40ZULTNE78" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
         ),
         
+        p(a("PDF Version of Project", href = "https://online.flippingbook.com/view/845969/")),
+        
         fluidRow(
             
             column(12,

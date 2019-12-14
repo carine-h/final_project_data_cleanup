@@ -42,7 +42,7 @@ data_plot_legacy<- ggplot(m, aes(x = legacy_r, fill = legacy_r)) +
 
 data_plot_legacy
 
-write_rds(data_plot_legacy, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/legacy/barplot_legacy.rds")
+write_rds(data_plot_legacy, "~/Documents/final_project_data_cleanup/shiny/legacy/barplot_legacy.rds")
 ```
 
 
@@ -64,7 +64,7 @@ legacy_violin <- m %>%
 
 legacy_violin
 
-write_rds(legacy_violin, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/legacy/violin_legacy.rds")
+write_rds(legacy_violin, "~/Documents/final_project_data_cleanup/shiny/legacy/violin_legacy.rds")
 ```
 
 
@@ -141,7 +141,7 @@ legacy_yes_permutation_plot<- legacy_yes_replications %>%
 
 legacy_yes_permutation_plot
 
-write_rds(legacy_yes_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/legacy/legacy_yes_permutation.rds")
+write_rds(legacy_yes_permutation_plot, "~/Documents/final_project_data_cleanup/shiny/legacy/legacy_yes_permutation.rds")
 ```
 
 
@@ -172,5 +172,5 @@ legacy_no_permutation_plot<- legacy_no_replications %>%
 
 legacy_no_permutation_plot
 
-write_rds(legacy_no_permutation_plot, "~/Desktop/GOV_1005/final_project_data_cleanup/shiny/legacy/legacy_no_permutation.rds")
+write_rds(legacy_no_permutation_plot, "~/Documents/final_project_data_cleanup/shiny/legacy/legacy_no_permutation.rds")
 ```
